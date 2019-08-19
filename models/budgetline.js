@@ -10,10 +10,18 @@ const budgetLineSchema = new Schema({
         type: String,
         required: true
     },
-    amount: {
+    amount_budgeted: {
         type: Schema.Types.Decimal128,
         required: true
-    }
+    },
+    amount_spent: {
+        type: Schema.Types.Decimal128,
+        required: true,
+        default: 0.0
+    },
+    date: { type: Date, default: Date.now },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 });
 
 const BudgetLine = mongoose.model("BudgetLine", budgetLineSchema);

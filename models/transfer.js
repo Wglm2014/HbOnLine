@@ -16,13 +16,14 @@ const transferSchema = new Schema({
         required: true
     },
     budget_line_from: {
-        type: Number,
+        type: String,
         required: true
     },
     budget_line_to: {
-        type: Number,
+        type: String,
         required: true
-    }
+    },
+    date: { type: Date, default: Date.now }
 });
 
 const Transfer = mongoose.model("Transfer", transferSchema);

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const movementSchema = new Schema({
+    type_budgetline: { type: mongoose.Schema.Types.ObjectId, ref: "BudgetLine" },
     description: {
         type: String,
         required: true
@@ -14,7 +15,8 @@ const movementSchema = new Schema({
     amount: {
         type: Schema.Types.Decimal128,
         required: true
-    }
+    },
+    date: { type: Date, default: Date.now }
 });
 const Movement = mongoose.model("Movement", movementSchema);
 module.exports = Movement;
