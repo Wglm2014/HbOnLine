@@ -2,7 +2,7 @@ import React from "react"
 
 function Landing() {
     return (
-    <section className="landing">
+    <section className="landing container">
 <div className="dark-overlay">
   <div className="landing-inner">
     <h1 className="x-large">Home Budget One Line</h1>

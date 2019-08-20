@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { header } from "express-validator";
+import {connect} from "react-redux";
+import {setAlert} from "../../actions/alert";
+import PropTypes from "prop=types";
 
-const Register = () => {
+
+const Register = ({setAlert}) => {
     const [formData, setFormData] = useState(
         {
             name: "",
@@ -16,8 +18,9 @@ const Register = () => {
         e.preventDefault();
         if (password !== password2) {
             //passwords do not match
+            setAlert("Passwords did not match","danger");
         } else {
-            const newUser = {
+            /*const newUser = {
                 name, email, password
             }
             try {
@@ -28,7 +31,7 @@ const Register = () => {
                 });
             } catch (err) {
                 console.error(err.response.data)
-            }
+            }*/
         }
     }
     return (
@@ -71,4 +74,7 @@ const Register = () => {
     )
 }
 
-export default Register;
+Register.propTypes ={
+    setAlert:PropTypes.func.isRequired
+}
+export default connect(null,{setAlert})(Register);
