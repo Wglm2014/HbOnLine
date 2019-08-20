@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const categoriesRoutes = require("./categories");
+//const categoriesRoutes = require("./categories");
 const usersRouters = require("./users");
 const userAuth = require("./auth");
 const budgetLineRoutes = require("./budgetlines");

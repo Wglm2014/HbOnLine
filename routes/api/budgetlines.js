@@ -12,6 +12,7 @@ router.get("/", auth, async (req, res) => {
         if (!budgetLine) {
             return res.status(400).json({ msg: "No Budget Items Yet" })
         }
+        res.json(budgetLine);
     } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
@@ -26,18 +27,21 @@ router.post("/", [auth,
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-        const budgeLine = {
+        const budgeLineFields = {
             name: req.body.name,
             description: req.body.description,
             amount_budgeted: req.body.amount_budgeted,
             amount_spent: req.body.amount_spent,
-            user: req.body.id
+            user: req.user.id
         };
 
         try {
-
+            const budgetLine = new BudgetLine(budgeLineFields);
+            await BudgetLine.save();
+            res.json(budgetLine);
         } catch (err) {
-
+            console.error(err.message);
+            res.status(500).send("Server Error");
         }
 
     });
