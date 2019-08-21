@@ -3,27 +3,28 @@ import React, { useState } from "react";
 
 const Login = () => {
     const [formData, setFormData] = useState(
-        {   email: "",
+        {
+            email: "",
             password: ""
         });
-    const {  email, password } = formData;
+    const { email, password } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = e => {
         e.preventDefault();
 
-            /*const newUser = {
-                name, email, password
-            }
-            try {
-                const config = { headers: { "content-type": "application/json" } }
-                const body = JSON.stringify(newUser);
-                axios.post("/api/users", body, config).then(res => {
-                    console.log(res);
-                });
-            } catch (err) {
-                console.error(err.response.data)
-            }*/
-        
+        /*const newUser = {
+            name, email, password
+        }
+        try {
+            const config = { headers: { "content-type": "application/json" } }
+            const body = JSON.stringify(newUser);
+            axios.post("/api/users", body, config).then(res => {
+                console.log(  x;50thn-= mores);
+            });
+        } catch (err) {
+            console.error(err.response.data)
+        }*/
+
     }
     return (
         <div id="Register" className="card-body container">
