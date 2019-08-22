@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import NavBar from "./components/Nav";
@@ -9,9 +9,18 @@ import Register from "./components/auth/register";
 import { Provider } from "react-redux";
 import store from "./store";
 import Alert from "./components/alert"
+import {loadUser} from "./actions/auth";
+import setAuthToken from "./utils/setauthtoken"
 import "./App.css";
-function App() {
 
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App =() =>{
+  useEffect(()=>{
+    store.dispatch(loadUser)},[]); //empty bracket will make it only run once
   return (
     <Provider store={store}>
       <Router>
@@ -20,10 +29,10 @@ function App() {
           <Route exact path="/" component={Landing} />
           <section className="container">
             <Alert />
-            <switch>
+            <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
-            </switch>
+            </Switch>
           </section>
         </div>
       </Router>
