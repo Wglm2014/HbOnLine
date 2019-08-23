@@ -5,7 +5,7 @@ const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 require("dotenv").config();
 
 
@@ -14,7 +14,8 @@ require("dotenv").config();
 //@access   Public
 router.get("/", auth, async (req, res) => {
     try {
-        console.log(mongoose.Types.ObjectId(req.user.id));
+        //console.log(mongoose.Types.ObjectId(req.user.id));
+        console.log(req.user.id);
         const user = await User.findById(req.user.id).select("-password");
         res.json(user);
     } catch (err) {
@@ -42,14 +43,8 @@ router.post("/", [
             if (!user) {
                 return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
             }
-            //get users gravatar
-            const avatar = gravatar.url(email, {
-                s: "200",
-                r: "pg",
-                d: "mm"
-            });
 
-            //return jsonwebtoken
+
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
@@ -67,7 +62,7 @@ router.post("/", [
                     res.json({ token });
                 });
 
-            res.send("User registered");
+            // res.send("User registered");
 
         } catch (err) {
             console.error(err.message);

@@ -7,5 +7,7 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
+export const GET_BUDGET_LINE = "GET_BUDGET_LINE";
+export const BUDGET_LINE_ERROR = "BUTGET_LINE_ERROR";
 
 

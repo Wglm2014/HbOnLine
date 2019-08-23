@@ -19,6 +19,7 @@ check("password", "Please enter a password with 6 or more characters").isLength(
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+        console.log("api here");
         const { name, email, password } = req.body;
 
         try {
