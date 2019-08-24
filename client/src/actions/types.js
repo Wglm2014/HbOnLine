@@ -9,5 +9,6 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const GET_BUDGET_LINE = "GET_BUDGET_LINE";
 export const BUDGET_LINE_ERROR = "BUTGET_LINE_ERROR";
+export const CLEAR_BUDGET = "CLEAR_BUDGET";
 
 

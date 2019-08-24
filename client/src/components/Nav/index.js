@@ -13,14 +13,14 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <a href="/" className="navbar-brand" ><img className="rounded" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a href="#!">
-              Budget
-          </a>
+            <a href="/dashboard">
+              Budget Lines
+            </a>
           </li>
           <li className="nav-item">
             <a onClick={logout} href="#!">
               Logout
-          </a>
+            </a>
           </li>
         </ul>
       </nav>
