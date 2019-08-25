@@ -8,7 +8,8 @@ const { check, validationResult } = require("express-validator");
 
 router.get("/", auth, async (req, res) => {
     try {
-        const budgetLine = await BudgetLine.findAll({ user: req.user.id }).populate("User", [name]);
+        console.log(`IT MADE IT HERE${req.user.id}`);
+        const budgetLine = await BudgetLine.find({ user: req.user.id });
         if (!budgetLine) {
             return res.status(400).json({ msg: "No Budget Items Yet" })
         }
@@ -37,7 +38,7 @@ router.post("/", [auth,
 
         try {
             const budgetLine = new BudgetLine(budgeLineFields);
-            await BudgetLine.save();
+            await budgetLine.save();
             res.json(budgetLine);
         } catch (err) {
             console.error(err.message);

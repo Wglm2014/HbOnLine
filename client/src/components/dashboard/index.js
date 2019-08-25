@@ -1,28 +1,46 @@
-import React from "react";
-import { Fragment } from "rect-router-dom"
+import React, { Fragment, useEffect } from "react";
 import PropType from "prop-types";
 import { connect } from "react-redux";
-import spinner from "../../spinner";
-import { getCurrentBudget } from "../../actions/budgetline"
-const Dashboard = ({ getCurrentBudget, auth: { user }, budgetLine: { budgetLine, loading } }) => {
+import spinner from "../spinner/index"
+import { getBudgetLine } from "../../actions/budgetline"
+import BudgetForm from "../budgetForm";
+const Dashboard = ({ getBudgetLine, auth, budgetline }) => {
     useEffect(() => {
-        getCurrentBudget();
+        getBudgetLine();
     }, []);
-    return loading && profile === null ? <spinner /> : <Fragment>
-        <h1 className="large text-primary">Budget</h1>
-        <p className="lead"> <i> className="fa fa-user"</i>Let&apos;s Budget {user.name} </p>
-    </Fragment>
+    console.log(budgetline);
+
+    return budgetline.loading && budgetline.budgetLine === null ? <spinner /> :
+        <Fragment>
+            <h1 className="large text-primary">Budget</h1>
+            <BudgetForm />
+            {budgetline.budgetLine.length ? (
+                <div>
+                    {budgetline.budgetLine.map(line => (
+                        <div className="row">
+                            <div className="col-12" key={line._id}>
+                                <a href="#!">
+                                    <strong>
+                                        {line.name}
+                                    </strong>
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (<h3>No Budget Lines added Yet</h3>)}
+        </Fragment>
 }
 
 Dashboard.propTypes = {
-    getCurrentBudget: PropType.func.isRequired,
+    getBudgetLine: PropType.func.isRequired,
     auth: PropType.object.isRequired,
-    budgetLine: PropType.object.isRequired
+    budgetline: PropType.object.isRequired
 }
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    budgetline: state.profile
+    budgetline: state.budgetline
 });
 
-export default connect(mapStateToProps, { getCurrentBudget })(Dashboard)
+export default connect(mapStateToProps, { getBudgetLine })(Dashboard)

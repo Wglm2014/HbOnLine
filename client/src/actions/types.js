@@ -10,5 +10,6 @@ export const LOGOUT = "LOGOUT";
 export const GET_BUDGET_LINE = "GET_BUDGET_LINE";
 export const BUDGET_LINE_ERROR = "BUTGET_LINE_ERROR";
 export const CLEAR_BUDGET = "CLEAR_BUDGET";
+export const POST_BUDGET_LINE = "POST_BUDGET_LINE"
 
 
