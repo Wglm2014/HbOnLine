@@ -95,7 +95,10 @@
   background: var(--light-color);
   color: #333;
 }
-
+.budgetlinelabel,
+.budgetlineinput {
+  width: 150px;
+}
 
 /* Mobile Styles */
 @media (max-width: 700px) {

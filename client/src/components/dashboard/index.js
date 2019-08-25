@@ -7,8 +7,7 @@ import BudgetForm from "../budgetForm";
 const Dashboard = ({ getBudgetLine, auth, budgetline }) => {
     useEffect(() => {
         getBudgetLine();
-    }, []);
-    console.log(budgetline);
+    }, [budgetline]);
 
     return budgetline.loading && budgetline.budgetLine === null ? <spinner /> :
         <Fragment>
