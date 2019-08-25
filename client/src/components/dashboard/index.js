@@ -1,21 +1,28 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, Component } from "react";
 import PropType from "prop-types";
 import { connect } from "react-redux";
 import spinner from "../spinner/index"
 import { getBudgetLine } from "../../actions/budgetline"
 import BudgetForm from "../budgetForm";
-const Dashboard = ({ getBudgetLine, auth, budgetline }) => {
-    useEffect(() => {
-        getBudgetLine();
-    }, [budgetline]);
+class Dashboard extends Component {
+    
+    componentDidMount(){
+        this.props.getBudgetLine();
+        console.log(this.props);
+    }
 
-    return budgetline.loading && budgetline.budgetLine === null ? <spinner /> :
+    componentDidUpdate(){
+        this.props.getBudgetLine();
+    }
+    
+    render(){
+    return this.props.budgetline.loading && this.props.budgetline.budgetLine === null ? <spinner /> :
         <Fragment>
             <h1 className="large text-primary">Budget</h1>
             <BudgetForm />
-            {budgetline.budgetLine.length ? (
+            {this.props.budgetline.budgetLine.length ? (
                 <div>
-                    {budgetline.budgetLine.map(line => (
+                    {this.props.budgetline.budgetLine.map(line => (
                         <div className="row">
                             <div className="col-12" key={line._id}>
                                 <a href="#!">
@@ -29,6 +36,8 @@ const Dashboard = ({ getBudgetLine, auth, budgetline }) => {
                 </div>
             ) : (<h3>No Budget Lines added Yet</h3>)}
         </Fragment>
+    }
+    
 }
 
 Dashboard.propTypes = {
@@ -37,7 +46,7 @@ Dashboard.propTypes = {
     budgetline: PropType.object.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state,ownProps) => ({
     auth: state.auth,
     budgetline: state.budgetline
 });

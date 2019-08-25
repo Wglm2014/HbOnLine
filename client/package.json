@@ -2,7 +2,7 @@
   "name": "hbonline",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
+  "proxy": "http://localhost:3002/",
   "dependencies": {
     "axios": "^0.18.0",
     "prop-types": "^15.7.2",
@@ -13,6 +13,7 @@
     "react-scripts": "^2.1.1",
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
+    "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.3"
   },

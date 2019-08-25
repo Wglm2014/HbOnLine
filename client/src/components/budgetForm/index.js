@@ -1,15 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { postBudgetLine, getBudgetLine } from "../../actions/budgetline";
 
-const PostBudgetLine = ({ getBudgetLine, budgetline, auth, postBudgetLine, history }) => {
-
-    /* useEffect(() => {
-         console.log("working")
-     });
-     getBudgetLine();*/
+const PostBudgetLine = ({  postBudgetLine, history }) => {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -29,12 +24,6 @@ const PostBudgetLine = ({ getBudgetLine, budgetline, auth, postBudgetLine, histo
     const onSubmit = e => {
         e.preventDefault();
         postBudgetLine(formData, history);
-        setState({
-            name: "",
-            description: "",
-            amount_budgeted: 0.0,
-            amount_spent: 0.0,
-        });
     }
     return (
         <Fragment>
@@ -91,13 +80,7 @@ const PostBudgetLine = ({ getBudgetLine, budgetline, auth, postBudgetLine, histo
     );
 }
 PostBudgetLine.propTypes = {
-    postBudgetLine: PropTypes.func.isRequired,
-    //getBudgetLine: PropTypes.func.isRequired,
-    //auth: PropTypes.object.isRequired,
-    //budgetline: PropTypes.object.isRequired
+    postBudgetLine: PropTypes.func.isRequired
 }
-/*const mapStateToProps = state => ({
-    auth: state.auth,
-    budgetline: state.budgetline
-});*/
+
 export default connect(null, { postBudgetLine })(withRouter(PostBudgetLine))
