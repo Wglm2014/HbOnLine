@@ -1,46 +1,59 @@
-import React, { useState, Fragment } from "react";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { postBudgetLine } from "../../actions/budgetline";
+import React, {Component } from "react";
+import { postBudgetLine,getBudgetLine } from "../../utils/budgetline";
 
-const PostBudgetLine = ({ postBudgetLine, history }) => {
-
-    const [formData, setFormData] = useState({
-        name: "",
-        period: "",
-        payment_date: "",
-        amount_budgeted: 0.0
-    });
-
-    const {
-        name,
-        period,
-        payment_date,
-        amount_budgeted } = formData;
-
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    const onSubmit = e => {
-        e.preventDefault();
-        postBudgetLine(formData, history);
+class BudgetLines extends Component ()  { 
+    componentWillMount() {this.loadBudgetLines();}
+    state = {
+    budgetLines:[],
+    name: "",
+    period: "",
+    payment_date: "",
+    amount_budgeted: ""
     }
-    return (
-        <Fragment>
+        loadBudgetLines= ()=>{
+            getBudgetLine()
+            .then(res=> {
+                this.setState({budgetLines:res.data,
+                name: "",
+                period: "",
+                payment_date: "",
+                amount_budgeted: "",
+                amount_spent:""});
+            })
+            .catch(err => console.log(err));
+        }
+
+        handleInputChange = e => {
+            const {name,value}= e.target;
+            this.setState({[name]:value});
+         };
+
+         handleFormSubmit = e => {
+            e.preventDefault();
+            this.postBudgetLine({
+                name: this.state.name,
+                period: this.state.period,
+                payment_date: this.state.payment_date,
+                amount_budgeted : this.state.amount_budgeted}).then((res)=>{this.loadBudgetLines();})
+            .catch((err)=>console.log(err));
+         }
+
+         render(){
+             return (
             <div className="container">
                 <div className="row">
-
                     <div className="col-12">
-                        <form className="form" onSubmit={e => { onSubmit(e) }}>
+                    <form className="form">
                             <input
                                 type="text"
-                                value={name}
-                                onChange={e => onChange(e)}
+                                value={this.state.name}
+                                onChange={this.handleInputChange}
                                 name="name"
                                 placeholder="Budge Line Name (required)"
                                 className="budgetlineinput"
                                 requied
                             />
-                            <select value={period} onChange={e => onChange(e)} name="period" placeholder="payment every?" className="budgetlineinput" requied>
+                            <select value={this.state.period} onChange={this.handleInputChange} name="period" placeholder="payment every?" className="budgetlineinput" requied>
                                 <option value="monthly">month</option>
                                 <option value="quarter">quarter</option>
                                 <option value="year">year</option>
@@ -48,8 +61,8 @@ const PostBudgetLine = ({ postBudgetLine, history }) => {
                             </select>
                             <input
                                 type="date"
-                                value={payment_date}
-                                onChange={e => onChange(e)}
+                                value={this.state.payment_date}
+                                onChange={this.handleInputChange}
                                 name="payment_date"
                                 placeholder="last day to pay"
                                 className="budgetlineinput"
@@ -57,36 +70,47 @@ const PostBudgetLine = ({ postBudgetLine, history }) => {
                             />
                             <input
                                 type="number"
-                                value={amount_budgeted}
-                                onChange={e => onChange(e)}
+                                value={this.state.amount_budgeted}
+                                onChange={this.handleInputChange}
                                 name="amount_budgeted"
                                 placeholder="0.0"
                                 step="0.01"
                                 className="budgetlineinput"
                                 required
                             />
-                            <button type="submit" className="btn btn-link btn-lg" value="budgetline">
+                            <button type="submit" className="btn btn-link btn-lg" onClick ={this.handleFormSubmit}>
                                 <i className="fa fa-save"></i>
                             </button>
-                        </form>
-                        <div className="row">
-                            <div className="col-12">
-                                <label htmlFor="name" className="budgetlinelabel">Name</label>
-                                <label htmlFor="period" className="budgetlinelabel">period</label>
-                                <label htmlFor="payment_date" className="budgetlinelabel">due date</label>
-                                <label htmlFor="amount_budgeted" className="budgetlinelabel">Amount Budgeted</label>
-                                <label htmlFor="amount_spent" className="budgetlinelabel">Amount Spent</label>
-                            </div>
-                        </div>
+                        </form>                        
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-12">
+                        <label htmlFor="name" className="budgetlinelabel">Name</label>
+                        <label htmlFor="period" className="budgetlinelabel">period</label>
+                        <label htmlFor="payment_date" className="budgetlinelabel">due date</label>
+                        <label htmlFor="amount_budgeted" className="budgetlinelabel">Amount Budgeted</label>
+                        <label htmlFor="amount_spent" className="budgetlinelabel">Amount Spent</label>
+                    </div>
+                </div>
+                <div className="row">
+                    {this.state.budgetLines.length ?(                        
+                            {this.state.budgetLines.map(line => (
+                                
+                                <div className="col-12" key={line._id}>
+                                    <label className="budgetlinelabel">{line.name}</label>
+                                    <label className="budgetlinelabel">{line.period}</label>
+                                    <label className="budgetlinelabel">{line.payment_date}</label>
+                                    <label className="budgetlinelabel">{line.amount_budgeted}</label>                              
+                                    <label className="budgetlinelabel">{line.amount_spent}</label>
+                                </div>
+                                
+                            ))}
+                    ) : (<h3>No Budget Lines added Yet</h3>)}
+                </div> 
             </div>
 
-        </Fragment>
-    );
+             )}
 }
-PostBudgetLine.propTypes = {
-    postBudgetLine: PropTypes.func.isRequired
-}
-
-export default connect(null, { postBudgetLine })(withRouter(PostBudgetLine))
+     
+export default BudgetLines;
