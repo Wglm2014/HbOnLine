@@ -6,8 +6,13 @@ const budgetLineSchema = new Schema({
         type: String,
         required: true
     },
-    description: {
+    period: {
         type: String,
+        required: true,
+        default: "month"
+    },
+    payment_date: {
+        type: Date,
         required: true
     },
     amount_budgeted: {

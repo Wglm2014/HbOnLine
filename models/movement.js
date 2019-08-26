@@ -16,7 +16,7 @@ const movementSchema = new Schema({
         type: Schema.Types.Decimal128,
         required: true
     },
-    date: { type: Date, default: Date.now }
+    date_movement: { type: Date, default: Date.now }
 });
 const Movement = mongoose.model("Movement", movementSchema);
 module.exports = Movement;

@@ -5,6 +5,11 @@ const categorySchema = new Schema({
         type: String,
         requiered: true
     },
+    ategory_type: {
+        type: String,
+        required: true,
+        default: "spence"
+    },
     description: {
         type: String,
         requiered: true

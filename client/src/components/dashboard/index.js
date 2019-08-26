@@ -5,39 +5,39 @@ import spinner from "../spinner/index"
 import { getBudgetLine } from "../../actions/budgetline"
 import BudgetForm from "../budgetForm";
 class Dashboard extends Component {
-    
-    componentDidMount(){
+
+    componentDidMount() {
         this.props.getBudgetLine();
         console.log(this.props);
     }
 
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.props.getBudgetLine();
     }
-    
-    render(){
-    return this.props.budgetline.loading && this.props.budgetline.budgetLine === null ? <spinner /> :
-        <Fragment>
-            <h1 className="large text-primary">Budget</h1>
-            <BudgetForm />
-            {this.props.budgetline.budgetLine.length ? (
-                <div>
-                    {this.props.budgetline.budgetLine.map(line => (
-                        <div className="row">
-                            <div className="col-12" key={line._id}>
-                                <a href="#!">
-                                    <strong>
-                                        {line.name}
-                                    </strong>
-                                </a>
+
+    render() {
+        return this.props.budgetline.loading && this.props.budgetline.budgetLine === null ? <spinner /> :
+            <Fragment>
+                <h1 className="large text-primary">Budget</h1>
+                <BudgetForm />
+                {this.props.budgetline.budgetLine.length ? (
+                    <div>
+                        {this.props.budgetline.budgetLine.map(line => (
+                            <div className="row">
+                                <div className="col-12" key={line._id}>
+                                    <p className="lead">{line.name}</p>
+                                    <p className="lead">{line.period}</p>
+                                    <p className="lead">{line.payment_date}</p>
+                                    <p className="lead">{line.amount_budgeted}</p>
+                                    <p className="lead">{line.amount_spent}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (<h3>No Budget Lines added Yet</h3>)}
-        </Fragment>
+                        ))}
+                    </div>
+                ) : (<h3>No Budget Lines added Yet</h3>)}
+            </Fragment>
     }
-    
+
 }
 
 Dashboard.propTypes = {
@@ -46,7 +46,7 @@ Dashboard.propTypes = {
     budgetline: PropType.object.isRequired
 }
 
-const mapStateToProps = (state,ownProps) => ({
+const mapStateToProps = (state, ownProps) => ({
     auth: state.auth,
     budgetline: state.budgetline
 });
