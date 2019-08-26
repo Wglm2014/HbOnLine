@@ -28,7 +28,7 @@ export const postBudgetLine = (formData, history) => async dispatch => {
         });
 
     } catch (err) {
-        console.log(err);
+        console.log(err, typeof (err));
         dispatch({
             type: BUDGET_LINE_ERROR,
             payload: { msg: err }

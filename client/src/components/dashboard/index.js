@@ -1,18 +1,25 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment, Component, useEffect } from "react";
 import PropType from "prop-types";
 import { connect } from "react-redux";
-import spinner from "../spinner/index"
+import spinner from "../spinner"
 import { getBudgetLine } from "../../actions/budgetline"
 import BudgetForm from "../budgetForm";
 class Dashboard extends Component {
 
-    componentDidMount() {
+    //  useEffect(() => { this.props.getBudgetLine() }, []);
+
+    componentWillMount() {
+        console.log("requests");
         this.props.getBudgetLine();
-        console.log(this.props);
     }
 
-    componentDidUpdate() {
-        this.props.getBudgetLine();
+
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.budgetline.budgetLine === null) {
+            console.log("it works");
+            this.props.getBudgetLine();
+        }
     }
 
     render() {
@@ -25,11 +32,11 @@ class Dashboard extends Component {
                         {this.props.budgetline.budgetLine.map(line => (
                             <div className="row">
                                 <div className="col-12" key={line._id}>
-                                    <p className="lead">{line.name}</p>
-                                    <p className="lead">{line.period}</p>
-                                    <p className="lead">{line.payment_date}</p>
-                                    <p className="lead">{line.amount_budgeted}</p>
-                                    <p className="lead">{line.amount_spent}</p>
+                                    <label className="budgetlinelabel">{line.name}</label>
+                                    <label className="budgetlinelabel">{line.period}</label>
+                                    <label className="budgetlinelabel">{line.payment_date}</label>
+                                    <label className="budgetlinelabel">{line.amount_budgeted}</label>
+                                    <label className="budgetlinelabel">{line.amount_spent}</label>
                                 </div>
                             </div>
                         ))}

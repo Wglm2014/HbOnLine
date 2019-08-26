@@ -31,14 +31,14 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         <a href="/" className="navbar-brand" ><img className="rounded" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a href="/login">
+            <Link to="/login">
               Login
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a href="/register">
+            <Link to="/register">
               Sign Up
-             </a>
+             </Link>
           </li>
         </ul>
       </nav>

@@ -16,13 +16,12 @@ const budgetLineSchema = new Schema({
         required: true
     },
     amount_budgeted: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true
     },
     amount_spent: {
-        type: Schema.Types.Decimal128,
+        type: Number,
         required: true,
-        default: 0.0
     },
     date: { type: Date, default: Date.now },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },

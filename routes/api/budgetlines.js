@@ -8,7 +8,6 @@ const { check, validationResult } = require("express-validator");
 
 router.get("/", auth, async (req, res) => {
     try {
-        console.log(`IT MADE IT HERE${req.user.id}`);
         const budgetLine = await BudgetLine.find({ user: req.user.id });
         if (!budgetLine) {
             return res.status(400).json({ msg: "No Budget Items Yet" })
@@ -22,17 +21,21 @@ router.get("/", auth, async (req, res) => {
 
 router.post("/", [auth,
     [check("name", "Line Name is requiered").not().isEmpty(),
-    check("description", "Please add a description of").not().isEmpty()]], async (req, res) => {
+    check("period", "Plese select a period").not().isEmpty(),
+    check("payment_date", "Plese enter a date").not().isEmpty(),
+    check("amount_budgeted", "Please enter the amount").not().isEmpty()]], async (req, res) => {
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+
         const budgeLineFields = {
             name: req.body.name,
-            description: req.body.description,
+            period: req.body.period,
+            payment_date: req.body.payment_date,
             amount_budgeted: req.body.amount_budgeted,
-            amount_spent: req.body.amount_spent,
+            amount_spent: 0.0,
             user: req.user.id
         };
 

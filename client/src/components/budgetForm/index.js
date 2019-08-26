@@ -2,23 +2,22 @@ import React, { useState, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { postBudgetLine, getBudgetLine } from "../../actions/budgetline";
+import { postBudgetLine } from "../../actions/budgetline";
 
 const PostBudgetLine = ({ postBudgetLine, history }) => {
 
     const [formData, setFormData] = useState({
         name: "",
-        description: "",
-        amount_budgeted: 0.0,
-        amount_spent: 0.0,
+        period: "",
+        payment_date: "",
+        amount_budgeted: 0.0
     });
 
     const {
         name,
-        description,
-        amount_budgeted,
-        amount_spent,
-    } = formData;
+        period,
+        payment_date,
+        amount_budgeted } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = e => {
@@ -29,14 +28,7 @@ const PostBudgetLine = ({ postBudgetLine, history }) => {
         <Fragment>
             <div className="container">
                 <div className="row">
-                    <div className="col-12">
-                        <label htmlFor="name" className="budgetlinelabel">Name</label>
-                        <label htmlFor="period" className="budgetlinelabel">period</label>
-                        <label htmlFor="payment_date" className="budgetlinelabel">due date</label>
-                        <label htmlFor="amount_budgeted" className="budgetlinelabel">Amount Budgeted</label>
-                        <label htmlFor="amount_spent" className="budgetlinelabel">Amount Spent</label>
 
-                    </div>
                     <div className="col-12">
                         <form className="form" onSubmit={e => { onSubmit(e) }}>
                             <input
@@ -77,6 +69,15 @@ const PostBudgetLine = ({ postBudgetLine, history }) => {
                                 <i className="fa fa-save"></i>
                             </button>
                         </form>
+                        <div className="row">
+                            <div className="col-12">
+                                <label htmlFor="name" className="budgetlinelabel">Name</label>
+                                <label htmlFor="period" className="budgetlinelabel">period</label>
+                                <label htmlFor="payment_date" className="budgetlinelabel">due date</label>
+                                <label htmlFor="amount_budgeted" className="budgetlinelabel">Amount Budgeted</label>
+                                <label htmlFor="amount_spent" className="budgetlinelabel">Amount Spent</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
