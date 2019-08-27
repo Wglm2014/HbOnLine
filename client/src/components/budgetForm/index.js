@@ -1,49 +1,53 @@
-import React, {Component } from "react";
-import { postBudgetLine,getBudgetLine } from "../../utils/budgetline";
+import React, { Component } from "react";
+import { postBudgetLine, getBudgetLine } from "../../utils/budgetline";
 
-class BudgetLines extends Component ()  { 
-    componentWillMount() {this.loadBudgetLines();}
+class BudgetLines extends Component {
+
     state = {
-    budgetLines:[],
-    name: "",
-    period: "",
-    payment_date: "",
-    amount_budgeted: ""
+        budgetLines: [],
+        name: "",
+        period: "",
+        payment_date: "",
+        amount_budgeted: ""
     }
-        loadBudgetLines= ()=>{
-            getBudgetLine()
-            .then(res=> {
-                this.setState({budgetLines:res.data,
-                name: "",
-                period: "",
-                payment_date: "",
-                amount_budgeted: "",
-                amount_spent:""});
+    componentDidMount() { this.loadBudgetLines(); }
+    loadBudgetLines = () => {
+        getBudgetLine(null)
+            .then(res => {
+                this.setState({
+                    budgetLines: res.data,
+                    name: "",
+                    period: "",
+                    payment_date: "",
+                    amount_budgeted: "",
+                    amount_spent: ""
+                });
             })
             .catch(err => console.log(err));
-        }
+    }
 
-        handleInputChange = e => {
-            const {name,value}= e.target;
-            this.setState({[name]:value});
-         };
+    handleInputChange = e => {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    };
 
-         handleFormSubmit = e => {
-            e.preventDefault();
-            this.postBudgetLine({
-                name: this.state.name,
-                period: this.state.period,
-                payment_date: this.state.payment_date,
-                amount_budgeted : this.state.amount_budgeted}).then((res)=>{this.loadBudgetLines();})
-            .catch((err)=>console.log(err));
-         }
+    handleFormSubmit = e => {
+        e.preventDefault();
+        postBudgetLine({
+            name: this.state.name,
+            period: this.state.period,
+            payment_date: this.state.payment_date,
+            amount_budgeted: this.state.amount_budgeted
+        }).then((res) => { this.loadBudgetLines(); })
+            .catch((err) => console.log(err));
+    }
 
-         render(){
-             return (
+    render() {
+        return (
             <div className="container">
                 <div className="row">
                     <div className="col-12">
-                    <form className="form">
+                        <form className="form">
                             <input
                                 type="text"
                                 value={this.state.name}
@@ -78,10 +82,10 @@ class BudgetLines extends Component ()  {
                                 className="budgetlineinput"
                                 required
                             />
-                            <button type="submit" className="btn btn-link btn-lg" onClick ={this.handleFormSubmit}>
+                            <button type="submit" className="btn btn-link btn-lg" onClick={this.handleFormSubmit}>
                                 <i className="fa fa-save"></i>
                             </button>
-                        </form>                        
+                        </form>
                     </div>
                 </div>
                 <div className="row">
@@ -94,23 +98,26 @@ class BudgetLines extends Component ()  {
                     </div>
                 </div>
                 <div className="row">
-                    {this.state.budgetLines.length ?(                        
+                    {this.state.budgetLines.length ? (
+                        <div>
                             {this.state.budgetLines.map(line => (
-                                
+
                                 <div className="col-12" key={line._id}>
                                     <label className="budgetlinelabel">{line.name}</label>
                                     <label className="budgetlinelabel">{line.period}</label>
                                     <label className="budgetlinelabel">{line.payment_date}</label>
-                                    <label className="budgetlinelabel">{line.amount_budgeted}</label>                              
+                                    <label className="budgetlinelabel">{line.amount_budgeted}</label>
                                     <label className="budgetlinelabel">{line.amount_spent}</label>
                                 </div>
-                                
-                            ))}
+
+                            ))} </div>
                     ) : (<h3>No Budget Lines added Yet</h3>)}
-                </div> 
+                </div>
+
             </div>
 
-             )}
+        )
+    }
 }
-     
+
 export default BudgetLines;
