@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { postBudgetLine, getBudgetLine } from "../../utils/budgetline";
 
 class BudgetLines extends Component {
@@ -108,6 +109,8 @@ class BudgetLines extends Component {
                                     <label className="budgetlinelabel">{line.payment_date}</label>
                                     <label className="budgetlinelabel">{line.amount_budgeted}</label>
                                     <label className="budgetlinelabel">{line.amount_spent}</label>
+                                    <Link to={"/movements/" + line._id} >Add movement</Link>
+                                    <Link to="#!">Alter Amount</Link>
                                 </div>
 
                             ))} </div>

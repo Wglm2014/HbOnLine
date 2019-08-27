@@ -19,6 +19,7 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
+
 router.post("/", [auth,
     [check("name", "Line Name is requiered").not().isEmpty(),
     check("period", "Plese select a period").not().isEmpty(),
