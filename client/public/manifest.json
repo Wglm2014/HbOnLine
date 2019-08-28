@@ -1,9 +1,9 @@
 {
-  "short_name": "HbOnLine App",
+  "short_name": "HbonLine App",
   "name": "Home Budget On Line",
   "icons": [
     {
-      "src": "hbonline",
+      "src": "hbonline.png",
       "sizes": "192x192",
       "type": "image/png"
     }

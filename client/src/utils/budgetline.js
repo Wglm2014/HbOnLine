@@ -5,7 +5,7 @@ export const getBudgetLine = (id) => {
         const res = axios.get("/api/budgetline");
         return res;
     } else {
-        const response = axios.get("/api/budgetline" + id);
+        const response = axios.get("/api/budgetline/" + id);
         return response;
     }
 }

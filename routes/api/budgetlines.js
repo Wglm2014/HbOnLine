@@ -7,10 +7,26 @@ const { check, validationResult } = require("express-validator");
 
 
 router.get("/", auth, async (req, res) => {
+    let id = req.user.id;
+
     try {
         const budgetLine = await BudgetLine.find({ user: req.user.id });
         if (!budgetLine) {
             return res.status(400).json({ msg: "No Budget Items Yet" })
+        }
+        res.json(budgetLine);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+router.get("/:id", auth, async (req, res) => {
+    try {
+        console.log("REQ PARAMS " + req.params.id);
+        const budgetLine = await BudgetLine.find({ _id: req.params.id });
+        console.log(budgetLine);
+        if (!budgetLine) {
+            return res.status(400).json({ msg: "Item not found" })
         }
         res.json(budgetLine);
     } catch (err) {

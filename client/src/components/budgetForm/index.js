@@ -11,7 +11,7 @@ class BudgetLines extends Component {
         payment_date: "",
         amount_budgeted: ""
     }
-    componentDidMount() { this.loadBudgetLines(); }
+    componentWillMount() { this.loadBudgetLines(); }
     loadBudgetLines = () => {
         getBudgetLine(null)
             .then(res => {
@@ -56,9 +56,9 @@ class BudgetLines extends Component {
                                 name="name"
                                 placeholder="Budge Line Name (required)"
                                 className="budgetlineinput"
-                                requied
+                                required
                             />
-                            <select value={this.state.period} onChange={this.handleInputChange} name="period" placeholder="payment every?" className="budgetlineinput" requied>
+                            <select value={this.state.period} onChange={this.handleInputChange} name="period" placeholder="payment every?" className="budgetlineinput" required>
                                 <option value="monthly">month</option>
                                 <option value="quarter">quarter</option>
                                 <option value="year">year</option>
@@ -109,7 +109,7 @@ class BudgetLines extends Component {
                                     <label className="budgetlinelabel">{line.payment_date}</label>
                                     <label className="budgetlinelabel">{line.amount_budgeted}</label>
                                     <label className="budgetlinelabel">{line.amount_spent}</label>
-                                    <Link to={"/movements/" + line._id} >Add movement</Link>
+                                    <Link to={"/postmovements/" + line._id} >Add movement</Link>
                                     <Link to="#!">Alter Amount</Link>
                                 </div>
 
