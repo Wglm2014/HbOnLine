@@ -26,7 +26,7 @@ router.post("/", [auth,
     [check("description", "Please describe the movement").not().isEmpty(),
     check("amount", "Enter an amount").isFloat({ gt: 0.0 }),
     check("date_movement", "Enter date of movement").not().isEmpty()]], async (req, res) => {
-        const amountSpent = req.body.amount + req.body.amount_spent;
+        const amountSpent = req.body.movement_type === "in" ? (req.body.amount + req.body.amount_spent) : (req.body.amount_spent - req.body.amount);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
