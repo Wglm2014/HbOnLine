@@ -114,8 +114,8 @@ class BudgetLines extends Component {
                                             <label className="budgetlinelabel">{line.payment_date}</label>
                                             <label className="budgetlinelabel">{line.amount_budgeted}</label>
                                             <label className="budgetlinelabel">{line.amount_spent}</label>
-                                            <Link to={"/postmovements/" + line._id} >&nbsp;Add movement</Link>
-                                            <Link to="#!">&nbsp;Alter Amount</Link>
+                                            <Link to={"/postmovements/" + line._id} >&nbsp;Movements</Link>
+                                            <Link to={"/posttransfers/" + line._id}>&nbsp;Transfers</Link>
                                         </div>
 
                                     ))} </div>

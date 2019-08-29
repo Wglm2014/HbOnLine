@@ -8,6 +8,7 @@ import Register from "./components/auth/register";
 import Dashboard from "./components/dashboard";
 import PostBudgetLine from "./components/budgetForm";
 import PostMovements from "./components/movementForm";
+import PostTransfers from "./components/transferForm";
 
 import PrivateRoute from "./components/routing/privateroute"
 //Redux
@@ -40,6 +41,8 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/postbudgetline" component={PostBudgetLine} />
               <PrivateRoute exact path="/postmovements/:id" component={PostMovements} />
+              <PrivateRoute exact path="/posttransfers/:id" component={PostTransfers} />
+
             </Switch>
           </section>
         </div>

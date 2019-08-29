@@ -16,11 +16,9 @@ const transferSchema = new Schema({
         type: Number,
         required: true
     },
-    date: { type: Date, default: Date.now },
-    type_budgetline_related: {
-        type: String,
-        required: true
-    }
+    date_transfer: { type: Date, default: Date.now },
+    type_budgetline_related: { type: mongoose.Schema.Types.ObjectId, ref: "BudgetLine" },
+
 });
 
 const Transfer = mongoose.model("Transfer", transferSchema);
