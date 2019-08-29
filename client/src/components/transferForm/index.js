@@ -109,7 +109,7 @@ class Transfers extends Component {
                                         <option value="to">Transter To</option>
                                     </select>
                                     <select value={this.state.selectedline} onChange={this.handleInputChange} name="type_budgetline_related">
-                                        {this.state.budgetlines.map((line => <option key={line._id} value={line._id}>line.display</option>))}
+                                        {this.state.budgetlines.map((line => <option key={line._id} value={line._id}>{line.display}</option>))}
                                     </select>
                                     <input
                                         type="date"
