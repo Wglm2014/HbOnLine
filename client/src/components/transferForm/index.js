@@ -58,6 +58,7 @@ class Transfers extends Component {
     handleInputChange = e => {
         const { name, value } = e.target;
         this.setState({ [name]: value });
+
     };
 
     handleFormSubmit = e => {
