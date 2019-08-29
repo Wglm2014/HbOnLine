@@ -5,7 +5,9 @@ const PORT = process.env.PORT || 3002;
 const app = express();
 require("dotenv").config();
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/hbonline_db";
+//const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/hbonline_db";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://wglmhbonline:wglmhbonline19&#@ds311968.mlab.com:11968/heroku_qbvdswhm";
+
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true });
 
 // Define middleware here

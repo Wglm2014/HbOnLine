@@ -29,7 +29,7 @@ class Transfers extends Component {
 
     loadTransfers = () => {
         getBudgetLine(null).then(res => {
-            let allBudgetLines = data.map(line => { return { value =line._id, display: `item:${line.name} budgeted:${amount_budgeted}` } });
+            let allBudgetLines = res.data.map(line => { return { value: line._id, display: `item:${line.name} budgeted:${line.amount_budgeted}` } });
             getBudgetLine(this.props.match.params.id).then((results) => {
                 console.log(results.data);
                 getTransfers(this.props.match.params.id)
