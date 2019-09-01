@@ -102,7 +102,6 @@ class Movements extends Component {
                             </div>
                             <div className="two wide field">
                                 <div className="ui right labeled input ">
-
                                     <label htmlFor="amount" className="ui label">$</label>
                                     <input
                                         type="number"

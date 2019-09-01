@@ -173,7 +173,6 @@ class Transfers extends Component {
                             {this.state.transfers.map(trans => (
                                 <form className="ui form" key={trans._id}>
                                     <div className="inline fields">
-
                                         <div className="five wide field"><input value={trans.description} /></div>
                                         <div className="five wide field"><input value={trans.transfer_type} /></div>
                                         <div className="five wide field"><input value={trans.date_transfer} /></div>
