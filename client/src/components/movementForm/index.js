@@ -59,89 +59,100 @@ class Movements extends Component {
     render() {
         return (
             <div className="container">
-                <div className="card-header">
-                    <div className="row">
-                        <div className="col-12">
-                            <h3 className="text-primary">Item Name: <span className="text-danger">&nbsp;{this.state.budgetline.name}&nbsp;</span>
-                                Amount Budgeted: <span className="text-danger">&nbsp;{this.state.budgetline.amount_budgeted}&nbsp;</span>
-                                Spent: <span className="text-danger">&nbsp;{this.state.budgetline.amount_spent}</span>
-                            </h3>
-                            <Link to="/Dashboard"><i className="fa fa-arrow-circle-left text-danger"></i>Back to Budget</Link>
-                        </div>
-                    </div>
+                <div className="ui sizer vertical segment">
+                    <h1 className="ui large header">
+                        <span className="ui blue header">Line Item Name: <span className="ui red header">&nbsp;{this.state.budgetline.name}&nbsp;</span>
+                            Amount Budgeted: <span className="ui red header">&nbsp;{this.state.budgetline.amount_budgeted}&nbsp;</span>
+                            Spent: <span className="ui red header">&nbsp;{this.state.budgetline.amount_spent}</span>
+                        </span>
+                    </h1>
+                    <h3><Link to="/Dashboard"><i className="arrow circle left icon"></i>Back to Budget</Link></h3>
                 </div>
-                <div className="row text-center"><div className="col-12"><h1>Add Movements to Track Spenses </h1></div></div>
-                <div className="card">
+                <div className="ui sizer vertical segment">
+                    <h1 className="ui center aligned header">Add Movements to Track Spenses </h1>
+                </div>
 
-                    <div className="card-header">
-                        <div className="row mt-5">
-                            <div className="col-12">
-                                <form className="form">
-                                    <input
-                                        type="text"
-                                        value={this.state.description}
-                                        onChange={this.handleInputChange}
-                                        name="description"
-                                        placeholder="Movement description (requiered)"
-                                        className="budgetlineinput"
-                                        required
-                                    />
-                                    <select value={this.state.movement_type} onChange={this.handleInputChange} name="movement_type" placeholder="payment/income" className="budgetlineinput" required>
-                                        <option value="in">In</option>
-                                        <option value="out">Out</option>
-                                    </select>
-                                    <input
-                                        type="date"
-                                        value={this.state.date_movement}
-                                        onChange={this.handleInputChange}
-                                        name="date_movement"
-                                        placeholder="movement date"
-                                        className="budgetlineinput"
-                                        required
-                                    />
+                <div className="ui segment">
+                    <form className="ui form">
+                        <div className="inline fields">
+                            <div className="five wide field">
+                                <input
+                                    type="text"
+                                    value={this.state.description}
+                                    onChange={this.handleInputChange}
+                                    name="description"
+                                    placeholder="Movement description (requiered)"
+                                    required
+                                /></div>
+                            <div className="two wide field">
+                                <select value={this.state.movement_type} onChange={this.handleInputChange} name="movement_type" placeholder="payment/income" className="budgetlineinput" required>
+                                    <option value="in">In</option>
+                                    <option value="out">Out</option>
+                                </select>
+                            </div>
+                            <div className="three wide field">
+                                <input
+                                    type="date"
+                                    value={this.state.date_movement}
+                                    onChange={this.handleInputChange}
+                                    name="date_movement"
+                                    placeholder="movement date"
+                                    required
+                                />
+                            </div>
+                            <div className="two wide field">
+                                <div className="ui right labeled input ">
+
+                                    <label htmlFor="amount" className="ui label">$</label>
                                     <input
                                         type="number"
                                         value={this.state.amount}
                                         onChange={this.handleInputChange}
                                         name="amount"
-                                        placeholder="0.0"
+                                        placeholder="0.00"
                                         step="0.01"
-                                        className="budgetlineinput"
                                         required
                                     />
-                                    <button type="submit" className="btn btn-link btn-lg" onClick={this.handleFormSubmit}>
-                                        <i className="fa fa-save"></i>
-                                    </button>
+                                </div>
+                            </div>
+                            <div className="three wide field">
+                                <button type="submit" className="ui left labeled icon button" onClick={this.handleFormSubmit}>
+                                    <i className="save icon"></i>movement
+                                </button>
+                            </div>
+                        </div>
+                        <div className="inline fields">
+                            <div className="five wide field">
+                                <label htmlFor="description">Movement Description</label>
+                            </div>
+                            <div className="two wide field">
+                                <label htmlFor="movement_type">Type</label>
+                            </div>
+                            <div className="three wide field">
+                                <label htmlFor="date_movement">Date of movement</label>
+                            </div>
+                            <div className="three wide field">
+                                <label htmlFor="amount">Amount</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div className="ui segment">
+                    {this.state.movements.length ? (
+                        <div>
+                            {this.state.movements.map(move => (
+                                <form className="ui form" key={move._id}>
+                                    <div className="inline fields">
+                                        <div className="five wide field"><input value={move.description} /></div>
+                                        <div className="two wide field"><input value={move.movement_type} /></div>
+                                        <div className="three wide field"><input value={move.date_movement} /></div>
+                                        <div className="three wide field"><input value={move.amount} /></div>
+                                    </div>
                                 </form>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col-12">
-                                <label htmlFor="description" className="budgetlinelabel">description</label>
-                                <label htmlFor="movement_type" className="budgetlinelabel">income/payment</label>
-                                <label htmlFor="date_movement" className="budgetlinelabel">movement date</label>
-                                <label htmlFor="amount" className="budgetlinelabel">amount payed</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card-body">
-                        <div className="row">
-                            {this.state.movements.length ? (
-                                <div>
-                                    {this.state.movements.map(move => (
-                                        <div className="col-12" key={move._id}>
-                                            <label className="budgetlinelabel">{move.description}</label>
-                                            <label className="budgetlinelabel">{move.movement_type}</label>
-                                            <label className="budgetlinelabel">{move.date_movement}</label>
-                                            <label className="budgetlinelabel">{move.amount}</label>
-                                        </div>
-                                    ))} </div>
-                            ) : (<h3>No movement lines for this line</h3>)}
-                        </div>
-                    </div>
+                            ))} </div>
+                    ) : (<h3>No movement lines for this line</h3>)}
                 </div>
             </div>
-
         )
     }
 }

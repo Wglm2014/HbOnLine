@@ -9,39 +9,34 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   if ((!loading) && (isAuthenticated)) {
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a href="/" className="navbar-brand" ><img className="rounded" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link to="/dashboard">
-              Budget
+      <div className="ui pointing menu">
+        <a href="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
+        <div className="right menu">
+          <Link className="item" to="/dashboard">
+            Budget
             </Link>
-          </li>
-          <li className="nav-item">
-            <a onClick={logout} href="#!">
-              Logout
+
+          <a className="item" onClick={logout} href="#!">
+            Logout
             </a>
-          </li>
-        </ul>
-      </nav>
+
+        </div>
+      </div>
     );
   } else {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a href="/" className="navbar-brand" ><img className="rounded" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link to="/login">
-              Login
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/register">
-              Sign Up
-             </Link>
-          </li>
-        </ul>
-      </nav>
+      <div className="ui pointing menu">
+        <a href="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
+        <div className="right menu">
+          <Link className="item" to="/login">
+            Login
+          </Link>
+          <Link className="item" to="/register">
+            Sign Up
+          </Link>
+
+        </div>
+      </div>
     );
   }
 }

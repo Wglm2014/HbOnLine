@@ -61,11 +61,10 @@ router.post("/", [
                     res.json({ token });
                 });
 
-            // res.send("User registered");
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("server error");
+            res.status(500).send(["server error", "contact us"]);
         }
     });
 

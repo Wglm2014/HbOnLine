@@ -51,7 +51,7 @@ check("password", "Please enter a password with 6 or more characters").isLength(
                     id: user.id
                 }
             }
-            jwt.sign(payload, process.env.jwtSecret, { expiresIn: 36000 },
+            jwt.sign(payload, process.env.local.jwtSecret, { expiresIn: 36000 },
                 (err, token) => {
                     if (err) throw err;
                     res.json({ token });

@@ -31,42 +31,74 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         return <Redirect to="/dashboard" />
     }
     return (
-        <div id="Register" className="card-body container">
-            <h1 className="large text-primary">Sign Up</h1>
-            <p className="lead"><i className="fas fa-user"></i> Create Your Account</p>
-            <form className="form" onSubmit={e => { onSubmit(e) }}>
-                <div className="form-group">
-                    <input type="text" placeholder="Name" name="name" value={name} onChange={e => onChange(e)} required />
+        <div>
+            <div className="ui sizer vertical segment">
+                <h1 className="large text-primary">Sign Up</h1>
+                <p className="lead"><i className="user icon"></i> Create Your Account</p>
+            </div>
+            <div class="ui placeholder segment">
+                <div class="ui two column very relaxed stackable grid">
+                    <div className="column">
+                        <form className="ui form" onSubmit={e => { onSubmit(e) }}>
+                            <div className="field">
+                                <label htmlFor="name">Please enter full name</label>
+                                <div className="ui left icon input">
+
+                                    <input type="text" placeholder="Name" name="name" value={name} onChange={e => onChange(e)} required />
+                                    <i className="user icon"></i>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label htmlFor="email">Please enter your email</label>
+                                <div className="ui left icon input">
+
+                                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+                                    <i className="envelope icon"></i>
+                                </div>
+                                <small className="form-text">This site uses Gravatar so if you want a profile image, use an email with image profile</small>
+                            </div>
+                            <div className="field">
+                                <label htmlFor="password">Please enter your password</label>
+                                <div className="ui left icon input">
+
+                                    <input
+                                        type="password"
+                                        placeholder="Password"
+                                        name="password"
+                                        value={password} onChange={e => onChange(e)}
+                                        minLength="6"
+                                    />
+                                    <i className="lock icon"></i>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label htmlFor="password2">Please confirm your password</label>
+                                <div className="ui left icon input">
+
+                                    <input
+                                        type="password"
+                                        placeholder="Confirm Password"
+                                        name="password2"
+                                        value={password2} onChange={e => onChange(e)}
+                                        minLength="6"
+                                    />
+                                    <i className="lock icon"></i>
+                                </div>
+                            </div>
+                            <button type="submit" className="ui blue submit button" value="register">Register</button>
+                        </form>
+                    </div>
+                    <div class="middle aligned column">
+                        <div class="ui big button">
+                            <i class="signup icon"></i>
+                            <a href="/login">Sign In</a>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
-                    <small className="form-text"
-                    >This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
-                </div>
-                <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        value={password} onChange={e => onChange(e)}
-                        minLength="6"
-                    />
-                </div>
-                <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        name="password2"
-                        value={password2} onChange={e => onChange(e)}
-                        minLength="6"
-                    />
-                </div>
-                <input type="submit" className="btn btn-primary" value="register" />
-            </form>
-            <p className="my-1">
-                Already have an account? <a href="/login">Sign In</a>
-            </p>
+                <div class="ui vertical divider">Or</div>
+            </div>
         </div>
+
     )
 }
 

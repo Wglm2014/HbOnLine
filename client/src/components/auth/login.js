@@ -2,57 +2,79 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../../actions/auth";
+import { login, loadUser } from "../../actions/auth";
 
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ auth, login }) => {
     const [formData, setFormData] = useState(
         {
             email: "",
-            password: ""
+            password: "",
+            errorMessage: ""
         });
     const { email, password } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
-    const onSubmit = e => {
+    const onSubmit = (e) => {
         e.preventDefault();
         login({ email, password });
+
     }
-    if (isAuthenticated) {
+
+    if (auth.isAuthenticated) {
+        console.log(auth.isAuthenticated);
         return <Redirect to="/dashboard" />;
     }
 
+
     return (
-        <div id="Register" className="card-body container">
-            <h1 className="large text-primary">Login</h1>
-            <p className="lead"><i className="fas fa-user"></i>Sign in to your account</p>
-            <form className="form" onSubmit={e => { onSubmit(e) }}>
-                <div className="form-group">
-                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+        <div>
+            <div className="ui sizer vertical segment">
+
+                <h1 className="large text-primary">Login</h1>
+                <p className="lead"><i className="user icon"></i> To Your Account</p>
+            </div>
+            <div id="Register" className="ui placeholder segment">
+                <div className="ui two column very relaxed stackable grid">
+                    <div className="column">
+                        <form className="ui form" onSubmit={e => { onSubmit(e) }}>
+                            <div className="field">
+                                <label htmlFor="email">Please enter your email</label>
+                                <div className="ui left icon input">
+                                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+                                    <i className="envelope icon"></i>
+                                </div>
+
+                            </div>
+                            <div className="field">
+                                <label htmlFor="password">Please enter your password</label>
+                                <div className="ui left icon input">
+                                    <input type="password" placeholder="Password" name="password" value={password} onChange={e => onChange(e)} minLength="6" />
+                                    <i className="lock icon"></i>
+                                </div>
+
+                            </div>
+                            <button type="submit" className="ui blue submit button">Login</button>
+                        </form>
+                    </div>
+                    <div className="middle aligned column">
+                        <button className="ui big button">
+                            <i className="signup icon"> </i><a href="/register">Sign Up</a>
+                        </button>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        value={password} onChange={e => onChange(e)}
-                        minLength="6"
-                    />
-                </div>
-                <input type="submit" className="btn btn-primary" value="login" />
-            </form>
-            <p className="my-1">
-                Don't have an account yet? <a href="/register">Sign Up</a>
-            </p>
+                <idv className="ui vertical divider">Or</idv>
+            </div>
         </div>
     )
 }
 
 Login.propTypes = {
     login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool
+    loadUser: PropTypes.func.isRequired,
+    auth: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    auth: state.auth
 })
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, loadUser })(Login);

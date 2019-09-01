@@ -13,6 +13,7 @@ export const loadUser = () => async dispatch => {
             type: USER_LOADED,
             payload: res.data
         });
+
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
@@ -46,17 +47,19 @@ export const login = ({ email, password }) => async dispatch => {
     const body = { email, password };
 
     try {
+        //checl for await for dispatch solve here the error
         const res = await axios.post("/api/auth", body);
-        console.log(res.data);
+        console.log(res.data, " 1");
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
-        });
+        })
+        console.log('after dispatch 2')
+        //dispatch(loadUser());
 
-        dispatch(loadUser());
     } catch (err) {
         console.log(err);
-        //dispatch(setAlert(err, "danger"));
+        // dispatch(setAlert(err, "danger"));
         dispatch({
             type: LOGIN_FAIL
         });
