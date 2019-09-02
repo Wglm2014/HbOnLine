@@ -58,7 +58,7 @@ router.post("/", [auth,
             const movement = new Movement(movementFields);
             await movement.save();
 
-            const budgetLine = await BudgetLine.findOneAndUpdate({ type_budgeline: req.body.type_budgeline }, { $set: { amount_spent: amountSpent } });
+            const budgetLine = await BudgetLine.findOneAndUpdate({ _id: req.body.type_budgeline }, { $set: { amount_spent: amountSpent } });
 
             res.json(movement);
         } catch (err) {

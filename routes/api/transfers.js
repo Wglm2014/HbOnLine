@@ -12,8 +12,8 @@ router.get("/:id", auth, async (req, res) => {
     let transfer = {};
     console.log("here param", req.params.id);
     try {
-        transfer = await Transfer.find({ type_budgetline: req.params.id }).populate("type_budgetline");
-        console.log("not here", transfer);
+        transfer = await Transfer.find({ type_budgetline: req.params.id }).populate("type_budgetline_related");
+
         if (!transfer) {
             return res.status(400).json({ msg: "No movements for this budget line" });
         }
@@ -37,7 +37,7 @@ router.post("/", [auth,
         //amount_budgeted corresponding to the account where the transfer is triggered
         const amountBudgeted = req.body.transfer_type === "from" ? (+req.body.amount + +req.body.amount_budgeted) : (+req.body.amount_budgeted - +req.body.amount);
         //amount_budgeted corresponding to the account affected
-        const amountBudgetedRelated = req.body.transfer_type === "from" ? (+req.body.amount_budgeted - +req.body.amount) : (+req.body.amount + +req.body.amount_budgeted);
+        const amountBudgetedRelated = req.body.transfer_type === "from" ? (+req.body.amount_budgeted_related - +req.body.amount) : (+req.body.amount + +req.body.amount_budgeted_related);
         const fromTo = req.body.transfer_type === "from" ? "to" : "from";
 
         const errors = validationResult(req);
@@ -46,32 +46,35 @@ router.post("/", [auth,
         }
         //insert a transfer from related to the account originated
         const TransferFields = {
-            type_budgetline: req.body.id,
             description: req.body.description,
             transfer_type: req.body.transfer_type,
             amount: req.body.amount,
             date_transfer: req.body.date_transfer,
-            type_budgetline_reletaed: req.body.budget_line_related
+            type_budgetline: req.body.type_budgetline,
+            type_budgetline_related: req.body.type_budgetline_related
         };
         //insert a transfer to the related account
         const TransferFieldsRelated = {
-            type_budgetline: req.body.budget_line_related,
             description: req.body.description,
             transfer_type: fromTo,
             amount: req.body.amount,
             date: req.body.date_transfer,
-            type_budgetline_related: req.body.id
+            type_budgetline: req.body.type_budgetline_related,
+            type_budgetline_related: req.body.type_budgetline
         };
 
         try {
             //originated account
             const transfer = new Transfer(TransferFields);
             await transfer.save();
-            const budgetLine = await BudgetLine.update({ type_budgetline: req.body.id }, { $set: { amount_budgeted: amountBudgeted } });
+            console.log("amounts: ", amountBudgeted, " ", amountBudgetedRelated)
+            const budgetLine = await BudgetLine.updateOne({ _id: req.body.type_budgetline }, { amount_budgeted: amountBudgeted });
+            console.log(budgetLine);
             //related account
             const transferRelated = new Transfer(TransferFieldsRelated)
             await transferRelated.save();
-            const budgetLineRelated = await BudgetLine.update({ type_budgetline: req.body.type_budgetline_related }, { $set: { amount_budgeted: amountBudgetedRelated } });
+            const budgetLineRelated = await BudgetLine.updateOne({ _id: req.body.type_budgetline_related }, { amount_budgeted: amountBudgetedRelated });
+            console.log(budgetLineRelated);
             res.json(transfer);
         } catch (err) {
             console.error(err.message);

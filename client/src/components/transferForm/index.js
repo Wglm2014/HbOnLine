@@ -15,7 +15,9 @@ class Transfers extends Component {
         transfer_type: "",
         amount: "",
         date_transfer: "",
-        type_budgetline_related: ""
+        type_budgetline_related: "",
+        amount_budgeted: "",
+        amount_budgeted_related: ""
     }
     componentDidMount() {
         this.loadTransfers();
@@ -24,14 +26,14 @@ class Transfers extends Component {
 
     loadTransfers = () => {
         getBudgetLine(null).then(res => {
-            let allBudgetLines = res.data.map(line => { return { value: line._id, display: `item:${line.name} budgeted:${line.amount_budgeted}` } });
+            let allBudgetLines = res.data.map(line => { return { value: line._id, dataBudgeted: line.amount_budgeted, display: `item:${line.name} budgeted:${line.amount_budgeted}` } });
             console.log("1", this.props.match.params.id);
             getBudgetLine(this.props.match.params.id).then((results) => {
                 console.log(results.data);
                 console.log("2", this.props.match.params.id);
                 getTransfers(this.props.match.params.id)
                     .then(res => {
-                        console.log(res);
+                        console.log("3", res);
                         this.setState({
                             transfers: res.data,
                             budgetline: results.data[0],
@@ -41,8 +43,9 @@ class Transfers extends Component {
                             transfer_type: "",
                             amount: "",
                             date_transfer: "",
-                            type_budgetline_related: ""
-
+                            type_budgetline_related: "",
+                            amount_budgeted: results.data[0].amount_budgeted,
+                            amount_budgeted_related: ""
                         });
                     }).catch(err => console.log(err));
             }).catch(err => {
@@ -58,17 +61,26 @@ class Transfers extends Component {
         this.setState({ [name]: value });
     };
 
+    getBudgetLineById = (arr, id) => {
+        return arr.filter(
+            function (arr) { return arr.value === id }
+        );
+    }
+
     handleFormSubmit = e => {
         e.preventDefault();
         console.log(this.props.match.params.id, this.state.type_budgetline_related);
+        const selectedLine = this.getBudgetLineById(this.state.budgetlines, this.state.type_budgetline_related);
+        console.log(selectedLine[0].dataBudgeted);
         postTransfers({
-            type_budgetline: this.props.match.params.id,
             description: this.state.description,
             transfer_type: this.state.transfer_type,
             amount: this.state.amount,
             date_transfer: this.state.date_transfer,
-            type_budgetline_related: this.state.type_budgetline_related
-
+            type_budgetline: this.props.match.params.id,
+            type_budgetline_related: this.state.type_budgetline_related,
+            amount_budgeted: this.state.amount_budgeted,
+            amount_budgeted_related: selectedLine[0].dataBudgeted
         }).then((res) => { this.loadTransfers(); })
             .catch((err) => console.log(err));
     }
