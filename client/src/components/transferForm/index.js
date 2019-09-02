@@ -25,10 +25,13 @@ class Transfers extends Component {
     loadTransfers = () => {
         getBudgetLine(null).then(res => {
             let allBudgetLines = res.data.map(line => { return { value: line._id, display: `item:${line.name} budgeted:${line.amount_budgeted}` } });
+            console.log("1", this.props.match.params.id);
             getBudgetLine(this.props.match.params.id).then((results) => {
                 console.log(results.data);
+                console.log("2", this.props.match.params.id);
                 getTransfers(this.props.match.params.id)
                     .then(res => {
+                        console.log(res);
                         this.setState({
                             transfers: res.data,
                             budgetline: results.data[0],
@@ -43,7 +46,6 @@ class Transfers extends Component {
                         });
                     }).catch(err => console.log(err));
             }).catch(err => {
-                console.log("error");
                 console.log(err)
             });
         }).catch(err => {
@@ -58,6 +60,7 @@ class Transfers extends Component {
 
     handleFormSubmit = e => {
         e.preventDefault();
+        console.log(this.props.match.params.id, this.state.type_budgetline_related);
         postTransfers({
             type_budgetline: this.props.match.params.id,
             description: this.state.description,
@@ -99,19 +102,18 @@ class Transfers extends Component {
                                     required
                                 />
                             </div>
-                            <div className="two wide field">
-                                <select defaultValue={"from"} value={this.state.transfer_type} onChange={this.handleInputChange} name="transfer_type" placeholder="payment/income" className="budgetlineinput" required>
+                            <div className="three wide field">
+                                <select value={this.state.transfer_type} onChange={this.handleInputChange} name="transfer_type" className="ui selection dropdown" required>
+                                    <option value="" disabled>select one</option>
                                     <option value="from">From</option>
                                     <option value="to">To</option>
                                 </select>
                             </div>
                             <div className="four wide field">
-                                <select className="ui fluid search selection" value={this.state.type_budgetline_related} onChange={this.handleInputChange} name="type_budgetline_related">
+                                <select className="ui search dropdown" value={this.state.type_budgetline_related} onChange={this.handleInputChange} name="type_budgetline_related">
+                                    <option value="" disabled>select budget line</option>
                                     {this.state.budgetlines.map((line, i) => {
-                                        if (i === 0)
-                                            return <option selected="selected" key={line._id} value={line._id}>{line.display}</option>
-
-                                        return <option key={line._id} value={line._id}>{line.display}</option>
+                                        return <option key={line.value} value={line.value}>{line.display}</option>
                                     })}
                                 </select>
                             </div>
@@ -122,7 +124,6 @@ class Transfers extends Component {
                                     onChange={this.handleInputChange}
                                     name="date_transfer"
                                     placeholder="movement date"
-                                    className="budgetlineinput"
                                     required
                                 />
                             </div>
@@ -137,49 +138,49 @@ class Transfers extends Component {
                                         name="amount"
                                         placeholder="0.00"
                                         step="0.01"
-                                        className="budgetlineinput"
                                         required
                                     />
                                 </div>
                             </div>
-                            <div className="three wide field">
+                            <div className="two wide field">
                                 <button type="submit" className="ui left labeled icon button" onClick={this.handleFormSubmit}>
                                     <i className="save icon"></i>transfer
                                 </button>
                             </div>
                         </div>
                         <div className="inline fields">
-                            <div className="four wide field">
+                            <div className="five wide field">
                                 <label htmlFor="description">description</label>
                             </div>
-                            <div className="two wide field">
+                            <div className="three wide field">
                                 <label htmlFor="transfer_type">transfer type</label>
                             </div>
-                            <div className="three wide field">
+                            <div className="four wide field">
                                 <label htmlFor="type_budgetline_related">releted item</label>
                             </div>
                             <div className="three wide field">
                                 <label htmlFor="date_transfer">transfer date</label>
                             </div>
+                            <div className="three wide field">
+                                <label htmlFor="amount">amount transfer</label>
+                            </div>
                             <div className="two wide field">
-                                <label htmlFor="amount">amount payed</label>
+                                <label>&nbsp;</label>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div className="ui segment">
                     {this.state.transfers.length ? (
-                        <div>
+                        <form className="ui form">
                             {this.state.transfers.map(trans => (
-                                <form className="ui form" key={trans._id}>
-                                    <div className="inline fields">
-                                        <div className="five wide field"><input value={trans.description} /></div>
-                                        <div className="five wide field"><input value={trans.transfer_type} /></div>
-                                        <div className="five wide field"><input value={trans.date_transfer} /></div>
-                                        <div className="five wide field"><input value={trans.amount} /></div>
-                                    </div>
-                                </form>
-                            ))} </div>
+                                <div className="inline fields" key={trans._id}>
+                                    <div className="five wide field"><input value={trans.description} /></div>
+                                    <div className="three wide field"><input value={trans.transfer_type} /></div>
+                                    <div className="three wide field"><input value={trans.date_transfer} /></div>
+                                    <div className="three wide field"><input value={trans.amount} /></div>
+                                </div>
+                            ))} </form>
                     ) : (<h3>No transfers for this line</h3>)}
                 </div>
             </div>

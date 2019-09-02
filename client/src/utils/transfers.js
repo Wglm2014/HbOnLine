@@ -5,7 +5,7 @@ export const getTransfers = (id) => {
         const res = axios.get("/api/transfers");
         return res;
     } else {
-        const response = axios.get("/api/transfers", id);
+        const response = axios.get("/api/transfers/" + id);
         return response;
     }
 }

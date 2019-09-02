@@ -22,9 +22,7 @@ router.get("/", auth, async (req, res) => {
 });
 router.get("/:id", auth, async (req, res) => {
     try {
-        console.log("REQ PARAMS " + req.params.id);
         const budgetLine = await BudgetLine.find({ _id: req.params.id });
-        console.log(budgetLine);
         if (!budgetLine) {
             return res.status(400).json({ msg: "Item not found" })
         }

@@ -8,23 +8,22 @@ const { check, validationResult } = require("express-validator");
 
 //description,movement_type,amount,budget_line_from,budget_line_to,date
 
-router.get("/", auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
     let transfer = {};
+    console.log("here param", req.params.id);
     try {
-        if (req.id) {
-            transfer = await Transfer.find({ type_budgetline: req.id }).populate("type_budgetline");
-            console.log(transfer);
-        } else { transfer = await Transfer.find({}); }
-
+        transfer = await Transfer.find({ type_budgetline: req.params.id }).populate("type_budgetline");
+        console.log("not here", transfer);
         if (!transfer) {
             return res.status(400).json({ msg: "No movements for this budget line" });
         }
         res.json(transfer);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Server Error");
+        res.status(500).send({ msg: ["Server Error", err] });
     }
 });
+
 
 //description,movement_type,amount,budget_line_from,budget_line_to,date
 
@@ -34,10 +33,11 @@ router.post("/", [auth,
     check("date_transfer", "Enter date of transfer").not().isEmpty(),
     check("transfer_type", "please select a movement type").not().isEmpty(),
     check("type_budgetline_related", "select the related budget item").not().isEmpty()]], async (req, res) => {
+        console.log(req.body);
         //amount_budgeted corresponding to the account where the transfer is triggered
-        const amountBudgeted = req.body.transfer_type === "from" ? (req.body.amount + req.body.amount_budgeted) : (req.body.amount_budgeted - req.body.amount);
+        const amountBudgeted = req.body.transfer_type === "from" ? (+req.body.amount + +req.body.amount_budgeted) : (+req.body.amount_budgeted - +req.body.amount);
         //amount_budgeted corresponding to the account affected
-        const amountBudgetedRelated = req.body.transfer_type === "from" ? (req.body.amount_budgeted - req.body.amount) : (req.body.amount + req.body.amount_budgeted);
+        const amountBudgetedRelated = req.body.transfer_type === "from" ? (+req.body.amount_budgeted - +req.body.amount) : (+req.body.amount + +req.body.amount_budgeted);
         const fromTo = req.body.transfer_type === "from" ? "to" : "from";
 
         const errors = validationResult(req);
@@ -48,9 +48,9 @@ router.post("/", [auth,
         const TransferFields = {
             type_budgetline: req.body.id,
             description: req.body.description,
-            transfer_type: req.body.movement_type,
+            transfer_type: req.body.transfer_type,
             amount: req.body.amount,
-            date_transfer: req.body.date_movement,
+            date_transfer: req.body.date_transfer,
             type_budgetline_reletaed: req.body.budget_line_related
         };
         //insert a transfer to the related account
@@ -59,7 +59,7 @@ router.post("/", [auth,
             description: req.body.description,
             transfer_type: fromTo,
             amount: req.body.amount,
-            date: req.body.date_movement,
+            date: req.body.date_transfer,
             type_budgetline_related: req.body.id
         };
 
@@ -75,7 +75,7 @@ router.post("/", [auth,
             res.json(transfer);
         } catch (err) {
             console.error(err.message);
-            res.status(500).send("Server Error");
+            res.status(500).send({ msg: ["Server Error", err] });
         }
 
     });

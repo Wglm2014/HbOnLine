@@ -5,7 +5,7 @@ export const getMovements = (id) => {
         const res = axios.get("/api/movements");
         return res;
     } else {
-        const response = axios.get("/api/movements", id);
+        const response = axios.get("/api/movements/" + id);
         return response;
     }
 }

@@ -63,8 +63,9 @@ class BudgetLines extends Component {
                             </div>
                             <div className="two wide field"
                             >
-                                <select className="ui search dropdown" defaultValue={"monthly"} value={this.state.period} onChange={this.handleInputChange} name="form-control period" placeholder="payment every?" required>
-                                    <option value="monthly" selected>month</option>
+                                <select className="ui search dropdown" value={this.state.period} onChange={this.handleInputChange} name="period" required>
+                                    <option value="" disabled>select period</option>
+                                    <option value="monthly" >month</option>
                                     <option value="quarter">quarter</option>
                                     <option value="year">year</option>
                                     <option value="six months">six months</option>

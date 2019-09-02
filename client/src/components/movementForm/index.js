@@ -45,6 +45,7 @@ class Movements extends Component {
 
     handleFormSubmit = e => {
         e.preventDefault();
+        console.log(this.props.match.params.id);
         postMovements({
             type_budgetline: this.props.match.params.id,
             description: this.state.description,
