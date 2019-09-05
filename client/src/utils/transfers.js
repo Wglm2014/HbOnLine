@@ -13,3 +13,8 @@ export const postTransfers = (formData) => {
     const res = axios.post("/api/transfers", formData);
     return res;
 }
+
+export const deleteTransfers = id => {
+    const res = axios.delete("/api/transfers/" + id);
+    return res;
+}

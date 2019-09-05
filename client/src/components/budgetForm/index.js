@@ -57,9 +57,9 @@ class BudgetLines extends Component {
             this.loadBudgetLines();
         }).catch(err => console.log(err));
     }
-    deleteLine = e => {
-        alert(e);
-        deleteBudgetLine({ e }).then(res => {
+    deleteLine = idline => {
+        // alert(idline);
+        deleteBudgetLine(idline).then(res => {
             alert("2", res);
             this.loadBudgetLines();
         }).catch(err => alert(err))
@@ -173,6 +173,9 @@ class BudgetLines extends Component {
                                         <div className="two wide field"><input value={FormatNumber({ prefix: "$" })(line.amount_spent.$numberDecimal)} disabled /></div>
                                         <Link to={"/postmovements/" + line._id} className="ui icon button" data-tooltip="Add Movements"><i className="tasks icon"></i></Link>
                                         <Link to={"/posttransfers/" + line._id} className="ui icon button" data-tooltip="Make Transfers"><i className="exchange alternate icon"></i></Link>
+                                        <button type="submit" className="ui icon button" onClick={() => this.deleteLine(line._id)} data-tooltip="Delete Item">
+                                            <i class="erase icon"></i>
+                                        </button>
                                     </div>
                                     <div className="ui divider"></div>
                                 </div>

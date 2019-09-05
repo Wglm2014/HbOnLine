@@ -49,7 +49,7 @@ router.post("/", [auth,
         }
 
         //if type_item spence in will decrement, if type_ite
-        console.log(req.body);
+        //console.log(req.body);
 
         let amountSpent = 0;
         if (req.body.type_item === "spence") {
@@ -57,7 +57,7 @@ router.post("/", [auth,
         } else {
             amountSpent = req.body.movement_type === "in" ? (+req.body.amount + +req.body.amount_spent) : (+req.body.amount_spent - +req.body.amount);
         }
-        console.log(amountSpent);
+        //console.log(amountSpent);
 
         const movementFields = {
             description: req.body.description,
@@ -72,7 +72,7 @@ router.post("/", [auth,
             await movement.save();
 
             const budgetLine = await BudgetLine.updateOne({ _id: req.body.type_budgetline }, { amount_spent: amountSpent });
-            console.log(budgetLine)
+            //console.log(budgetLine)
             res.json(movement);
         } catch (err) {
             console.error(err.message);
@@ -80,4 +80,36 @@ router.post("/", [auth,
         }
 
     });
+
+router.delete("/:id", auth, async (req, res) => {
+    try {
+        const movement = await Movement.find({ _id: req.params.id }).populate("type_budgetline");
+        if (movement) {
+            //console.log(movement);
+            //console.log(movement[0].type_budgetline);
+            const budgetLine = await BudgetLine.find({ _id: movement[0].type_budgetline._id });
+            //console.log(budgetLine);
+            let amountSpent = 0;
+            const _amountSpent = +budgetLine[0].amount_spent;
+            const amount = +movement[0].amount;
+            //console.log(amount_spent, amount);
+            if (budgetLine[0].type_item === "spence") {
+                amountSpent = movement[0].movement_type === "in" ? (amount + _amountSpent) : (_amountSpent - amount);
+            } else {
+                amountSpent = movement[0].movement_type === "out" ? (amount + _amountSpent) : (_amountSpent - amount);
+            }
+            console.log("amount", amountSpent);
+            const updateBudget = await BudgetLine.updateOne({ _id: movement[0].type_budgetline }, { amount_spent: _amountSpent })
+            const deleteMovement = await Movement.remove({ _id: req.params.id });
+            res.send(deleteMovement);
+        }
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ errors: ["Server Error", err] });
+
+    };
+
+});
 module.exports = router;

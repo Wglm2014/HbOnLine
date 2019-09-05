@@ -11,7 +11,6 @@ const { check, validationResult } = require("express-validator");
 
 router.get("/", auth, async (req, res) => {
 
-    const errors = validationResult(req);
 
     let id = req.user.id;
     try {
@@ -91,8 +90,8 @@ router.put("/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
     console.log("did not make it");
     try {
-        const movement = await Movements.remove({ type_budgetline: req.params.id });
-        const transfers = await Transfers.remove({ type_budgetline: req.params.id });
+        //const movement = await Movements.remove({ type_budgetline: req.params.id });
+        //const transfers = await Transfers.remove({ type_budgetline: req.params.id });
         const lines = await BudgetLine.remove({ _id: req.params.id });
         if (!lines) {
             return res.status(400).json({ msg: "Item not found" })

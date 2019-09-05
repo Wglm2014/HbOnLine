@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Moment from "moment";
 import FormatNumber from "format-number";
 import { getBudgetLine } from "../../utils/budgetline";
-import { postMovements, getMovements } from "../../utils/movements";
+import { postMovements, getMovements, deleteMovements } from "../../utils/movements";
 
 class Movements extends Component {
 
@@ -63,6 +63,11 @@ class Movements extends Component {
             .catch((err) => console.log(err));
     }
 
+    deleteMovement = (id) => {
+        deleteMovements(id).then(res => {
+            this.loadBudgetLines();
+        }).catch(err => alert(err))
+    }
     render() {
         return (
             <div className="container">
@@ -113,7 +118,7 @@ class Movements extends Component {
                                     required
                                 />
                             </div>
-                            <div className="two wide field">
+                            <div className="three wide field">
                                 <div className="ui right labeled input ">
                                     <label htmlFor="amount" className="ui label">$</label>
                                     <input
@@ -152,6 +157,9 @@ class Movements extends Component {
                                         <div className="two wide field"><input type="text" value={move.movement_type} /></div>
                                         <div className="three wide field"><input type="text" value={Moment(move.date_movement).format("l")} /></div>
                                         <div className="three wide field"><input value={FormatNumber({ prefix: "$" })(move.amount.$numberDecimal)} /></div>
+                                        <button type="submit" className="ui icon button" onClick={() => this.deleteMovement(move._id)} data-tooltip="Delete Item">
+                                            <i class="erase icon"></i>
+                                        </button>
                                     </div>
                                     <div className="ui divider"></div>
                                 </div>

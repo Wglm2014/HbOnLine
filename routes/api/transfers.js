@@ -38,14 +38,11 @@ router.post("/", [auth,
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
-        console.log(req.body);
         //amount_budgeted corresponding to the account where the transfer is triggered
         const amountBudgeted = req.body.transfer_type === "from" ? (+req.body.amount + +req.body.amount_budgeted) : (+req.body.amount_budgeted - +req.body.amount);
         //amount_budgeted corresponding to the account affected
         const amountBudgetedRelated = req.body.transfer_type === "from" ? (+req.body.amount_budgeted_related - +req.body.amount) : (+req.body.amount + +req.body.amount_budgeted_related);
         const fromTo = req.body.transfer_type === "from" ? "to" : "from";
-
 
         //insert a transfer from related to the account originated
         const TransferFields = {
@@ -85,4 +82,35 @@ router.post("/", [auth,
         }
 
     });
+
+
+router.delete("/:id", auth, async (req, res) => {
+    try {
+        const transfer = await Transfer.find({ _id: req.params.id }).populate("type_budgetline_related").populate("type_budgetline");
+        const transferType = transfer[0].transfer_type;
+        const amount = +transfer[0].amount;
+        const amountBudgetedTo = +transfer[0].type_budgetline.amount_budgeted;
+        const amountBudgetedRelated = +transfer[0].type_budgetline_related.amount_budgeted;
+        const idRelated = transfer[0].type_budgetline_related._id;
+        const idTo = transfer[0].type_budgetline._id;
+
+
+        //amount_budgeted corresponding to the account where the transfer is triggered
+        const newAmountBudgetedTo = transferType === "to" ? (amount + amountBudgetedTo) : (amountBudgetedTo - amount);
+        //amount_budgeted corresponding to the account affected
+        const newAmountBudgetedRelated = transferType === "to" ? (amountBudgetedRelated - amount) : (amount + amountBudgetedRelated);
+
+        const updateBudgetLine = await BudgetLine.updateOne({ _id: idTo }, { amount_budgeted: newAmountBudgetedTo });
+        const updateBudgetLineRelated = await BudgetLine.updateOne({ _id: idRelated }, { amount_budgeted: newAmountBudgetedRelated });
+        const deleteTransfer = await Transfer.remove({ _id: req.params.id });
+        res.send(deleteTransfer);
+        // console.log(newAmountBudgetedTo, newAmountBudgetedRelated);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ errors: ["Server Error", err] });
+
+    };
+
+});
+
 module.exports = router;

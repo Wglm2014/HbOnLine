@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Moment from "moment";
 import FormatNumber from "format-number";
 import { getBudgetLine } from "../../utils/budgetline";
-import { postTransfers, getTransfers } from "../../utils/transfers";
+import { postTransfers, getTransfers, deleteTransfers } from "../../utils/transfers";
 
 class Transfers extends Component {
 
@@ -87,6 +87,12 @@ class Transfers extends Component {
             amount_budgeted_related: selectedLine[0].dataBudgeted.$numberDecimal
         }).then((res) => { this.loadTransfers(); })
             .catch((err) => console.log(err));
+    }
+
+    deleteTransfer = (id) => {
+        deleteTransfers(id).then(res => {
+            this.loadBudgetLines();
+        }).catch(err => alert(err))
     }
 
     render() {
@@ -192,6 +198,9 @@ class Transfers extends Component {
                                         <div className="five wide field"><input type="text" value={trans.type_budgetline_related.name} /></div>
                                         <div className="two wide field"><input value={Moment(trans.date_transfer).format("l")} /></div>
                                         <div className="two wide field"><input step="0.01" value={FormatNumber({ prefix: "$" })(trans.amount.$numberDecimal)} /></div>
+                                        <button type="submit" className="ui icon button" onClick={() => this.deleteTransfer(trans._id)} data-tooltip="Delete Item">
+                                            <i class="erase icon"></i>
+                                        </button>
                                     </div>
                                     <div className="ui divider"></div>
                                 </div>

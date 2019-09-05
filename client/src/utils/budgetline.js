@@ -15,14 +15,14 @@ export const postBudgetLine = (formData) => {
 }
 
 export const putBudgetLine = (updateFormData) => {
-    const res = axios.put("/api/budgetline/", updateFormData);
+    const res = axios.put("/api/budgetlineputdel", updateFormData);
     return res;
 }
 
-export const deleteBudgetLine = function (e) {
-    alert("before request", e)
-    const id = e;
-    const res = axios.delete("/api/budgetline/", +id);
-    alert(res);
+export const deleteBudgetLine = function (id) {
+    // alert("before request" + id);
+
+    const res = axios.delete("/api/budgetlineputdel/" + id);
+    //alert(res);
     return res;
 }

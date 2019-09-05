@@ -13,3 +13,8 @@ export const postMovements = (formData) => {
     const res = axios.post("/api/movements", formData);
     return res;
 }
+
+export const deleteMovements = id => {
+    const res = axios.delete("/api/movements/" + id);
+    return res;
+}
