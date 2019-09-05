@@ -10,15 +10,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
     return (
       <div className="ui pointing menu">
-        <a href="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
+        <Link to="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></Link>
         <div className="right menu">
           <Link className="item" to="/dashboard">
             Budget
             </Link>
 
-          <a className="item" onClick={logout} href="#!">
+          <a className="item" onClick={logout} href="/">
             Logout
-            </a>
+          </a>
 
         </div>
       </div>
@@ -26,7 +26,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   } else {
     return (
       <div className="ui pointing menu">
-        <a href="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></a>
+        <Link to="/" className="active item" ><img className="" src="./hbonline.png" alt="icon" /> <span>HOME</span></Link>
         <div className="right menu">
           <Link className="item" to="/login">
             Login

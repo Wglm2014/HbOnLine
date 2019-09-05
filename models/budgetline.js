@@ -6,6 +6,10 @@ const budgetLineSchema = new Schema({
         type: String,
         required: true
     },
+    type_item: {
+        type: String,
+        default: "spence"
+    },
     period: {
         type: String,
         required: true,
@@ -16,11 +20,11 @@ const budgetLineSchema = new Schema({
         required: true
     },
     amount_budgeted: {
-        type: Number,
+        type: Schema.Types.Decimal128,
         required: true
     },
     amount_spent: {
-        type: Number,
+        type: Schema.Types.Decimal128,
         required: true,
     },
     date: { type: Date, default: Date.now },

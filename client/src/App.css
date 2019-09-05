@@ -68,7 +68,9 @@
 .dates {
   width: 50px;
 }
-
+.titles {
+  margin: auto;
+}
 /* Mobile Styles */
 @media (max-width: 700px) {
   .container {

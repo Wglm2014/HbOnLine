@@ -21,7 +21,6 @@ const Login = ({ auth, login }) => {
     }
 
     if (auth.isAuthenticated) {
-        console.log(auth.isAuthenticated);
         return <Redirect to="/dashboard" />;
     }
 
@@ -54,6 +53,7 @@ const Login = ({ auth, login }) => {
 
                             </div>
                             <button type="submit" className="ui blue submit button">Login</button>
+
                         </form>
                     </div>
                     <div className="middle aligned column">

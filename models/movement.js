@@ -12,7 +12,7 @@ const movementSchema = new Schema({
         required: true
     },
     amount: {
-        type: Number,
+        type: Schema.Types.Decimal128,
         required: true
     },
     date_movement: { type: Date, default: Date.now },

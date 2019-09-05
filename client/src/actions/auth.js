@@ -42,6 +42,7 @@ export const register = ({ name, email, password }) => async dispatch => {
         });
     }
 }
+
 //login user
 export const login = ({ email, password }) => async dispatch => {
     const body = { email, password };
@@ -54,8 +55,7 @@ export const login = ({ email, password }) => async dispatch => {
             type: LOGIN_SUCCESS,
             payload: res.data
         })
-        console.log('after dispatch 2')
-        //dispatch(loadUser());
+        dispatch(loadUser());
 
     } catch (err) {
         console.log(err);

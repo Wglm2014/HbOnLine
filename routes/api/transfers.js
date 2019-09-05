@@ -33,6 +33,12 @@ router.post("/", [auth,
     check("date_transfer", "Enter date of transfer").not().isEmpty(),
     check("transfer_type", "please select a movement type").not().isEmpty(),
     check("type_budgetline_related", "select the related budget item").not().isEmpty()]], async (req, res) => {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         console.log(req.body);
         //amount_budgeted corresponding to the account where the transfer is triggered
         const amountBudgeted = req.body.transfer_type === "from" ? (+req.body.amount + +req.body.amount_budgeted) : (+req.body.amount_budgeted - +req.body.amount);
@@ -40,10 +46,7 @@ router.post("/", [auth,
         const amountBudgetedRelated = req.body.transfer_type === "from" ? (+req.body.amount_budgeted_related - +req.body.amount) : (+req.body.amount + +req.body.amount_budgeted_related);
         const fromTo = req.body.transfer_type === "from" ? "to" : "from";
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+
         //insert a transfer from related to the account originated
         const TransferFields = {
             description: req.body.description,
