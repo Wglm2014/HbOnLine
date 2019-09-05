@@ -66,7 +66,7 @@ class Movements extends Component {
     deleteMovement = (id) => {
         deleteMovements(id).then(res => {
             this.loadBudgetLines();
-        }).catch(err => alert(err))
+        }).catch(err => console.log(err))
     }
     render() {
         return (
@@ -104,6 +104,7 @@ class Movements extends Component {
                                 /></div>
                             <div className="two wide field">
                                 <select value={this.state.movement_type} onChange={this.handleInputChange} name="movement_type" placeholder="payment/income" className="budgetlineinput" required>
+                                    <option value="" disabled>select one</option>
                                     <option value="in">In</option>
                                     <option value="out">Out</option>
                                 </select>

@@ -62,7 +62,7 @@ class BudgetLines extends Component {
         deleteBudgetLine(idline).then(res => {
             alert("2", res);
             this.loadBudgetLines();
-        }).catch(err => alert(err))
+        }).catch(err => console.log(err))
     }
 
     render() {

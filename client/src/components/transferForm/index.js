@@ -92,7 +92,7 @@ class Transfers extends Component {
     deleteTransfer = (id) => {
         deleteTransfers(id).then(res => {
             this.loadBudgetLines();
-        }).catch(err => alert(err))
+        }).catch(err => console.log(err))
     }
 
     render() {
