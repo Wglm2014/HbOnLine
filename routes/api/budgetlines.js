@@ -21,7 +21,7 @@ router.get("/", auth, async (req, res) => {
         res.json(budgetLine);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
 });
 
@@ -35,7 +35,7 @@ router.get("/:id", auth, async (req, res) => {
         res.json(budgetLine);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
 });
 
@@ -68,7 +68,7 @@ router.post("/", [auth,
             res.json(budgetLine);
         } catch (err) {
             console.error(err.message);
-            res.status(500).send({ errors: ["Server Error", err] });
+            res.status(500).send({ errors: [{ msg: "Server Error" }] });
         }
 
     });
@@ -83,7 +83,7 @@ router.put("/:id", auth, async (req, res) => {
         res.json(budgetLine);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
 });
 
@@ -99,7 +99,7 @@ router.delete("/:id", auth, async (req, res) => {
         console.log(movement, transfers, lines);
     } catch (err) {
         console.log(err);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
 
     }
 

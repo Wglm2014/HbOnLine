@@ -41,12 +41,35 @@ class BudgetLines extends Component {
 
     handleFormSubmit = e => {
         e.preventDefault();
+        let anualAmount = 0;
+        switch (this.state.period) {
+            case "every month":
+                anualAmount = 12;
+                break;
+            case "every other month":
+                anualAmount = 6;
+                break;
+            case "quaterly":
+                anualAmount = 4;
+                break;
+            case "every 4 months":
+                anualAmount = 3;
+                break;
+            case "twice a year":
+                anualAmount = 2;
+                break;
+            case "once a year":
+                anualAmount = 1;
+                break;
+            default:
+        }
+        anualAmount = this.state.amount_budgeted * anualAmount;
         postBudgetLine({
             name: this.state.name,
             type_item: this.state.type_item,
             period: this.state.period,
             payment_date: this.state.payment_date,
-            amount_budgeted: this.state.amount_budgeted
+            amount_budgeted: anualAmount
         }).then((res) => { this.loadBudgetLines(); })
             .catch((err) => console.log(err));
     }
@@ -80,7 +103,7 @@ class BudgetLines extends Component {
                             <div className="two wide field"><label htmlFor="type_item">Type Item</label></div>
                             <div className="three wide field"><label htmlFor="period">Period</label></div>
                             <div className="three wide field"><label htmlFor="payment_date">Due Date</label></div>
-                            <div className="three wide field"><label htmlFor="amount_budgeted">Amount Budgeted</label></div>
+                            <div className="three wide field"><label htmlFor="amount_budgeted">Budgeted per Period</label></div>
                             <div className="three wide field"></div>
                         </div>
                         <div className="inline fields">
@@ -119,7 +142,6 @@ class BudgetLines extends Component {
                                     onChange={this.handleInputChange}
                                     name="payment_date"
                                     placeholder="last day to pay"
-
                                     required
                                 />
 
@@ -155,7 +177,7 @@ class BudgetLines extends Component {
                                 <div className="two wide field"><label htmlFor="type_item">Type Item</label></div>
                                 <div className="three wide field"><label htmlFor="period">Period</label></div>
                                 <div className="two wide field"><label htmlFor="payment_date">Due Date</label></div>
-                                <div className="two wide field"><label htmlFor="amount_budgeted">Budgeted</label></div>
+                                <div className="two wide field"><label htmlFor="amount_budgeted">Anual Budgeted</label></div>
                                 <div className="two wide field"><label htmlFor="amount_spent">Spent</label></div>
                                 <div className="one wide field"></div>
                                 <div className="one wide field"></div>

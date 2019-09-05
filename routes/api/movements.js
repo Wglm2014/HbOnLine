@@ -76,7 +76,7 @@ router.post("/", [auth,
             res.json(movement);
         } catch (err) {
             console.error(err.message);
-            res.status(500).send({ errors: ["Server Error", err] });
+            res.status(500).send({ errors: [{ msg: "Server Error" }] });
         }
 
     });
@@ -107,7 +107,7 @@ router.delete("/:id", auth, async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
 
     };
 

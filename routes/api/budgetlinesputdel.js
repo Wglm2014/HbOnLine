@@ -18,7 +18,7 @@ router.put("/:id", auth, async (req, res) => {
         res.json(budgetLine);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
 });
 
@@ -29,23 +29,26 @@ router.delete("/:id", auth, async (req, res) => {
         //find transfer of related account and revert
         const findTransfer = await Transfers.find({ type_budgetline: req.params.id }).populate("type_budgetline_related");
         // get data from related transfer to update 
-
-        const transferType = findTransfer[0].transfer_type;
-        const amount = +findTransfer[0].amount;
-        const amountBudgetedRelated = +findTransfer[0].type_budgetline_related.amount_budgeted;
-        const idRelated = findTransfer[0].type_budgetline_related._id;
-        // recalculate related amount_budgeted to be updated
-        const newAmountBudgetedRelated = transferType === "to" ? (amountBudgetedRelated - amount) : (amount + amountBudgetedRelated);
-        const updateBudgetLineRelated = await BudgetLine.updateOne({ _id: idRelated }, { amount_budgeted: newAmountBudgetedRelated });
-        //delete transfer related to account 
-        const deleteTransferRelated = await Transfers.remove({ type_budgetline: idRelated });
+        console.log(findTransfer.length);
+        if (findTransfer.join("") !== "") {
+            console.log("still here");
+            const transferType = findTransfer[0].transfer_type;
+            const amount = +findTransfer[0].amount;
+            const amountBudgetedRelated = +findTransfer[0].type_budgetline_related.amount_budgeted;
+            const idRelated = findTransfer[0].type_budgetline_related._id;
+            // recalculate related amount_budgeted to be updated
+            const newAmountBudgetedRelated = transferType === "to" ? (amountBudgetedRelated - amount) : (amount + amountBudgetedRelated);
+            const updateBudgetLineRelated = await BudgetLine.updateOne({ _id: idRelated }, { amount_budgeted: newAmountBudgetedRelated });
+            //delete transfer related to account 
+            const deleteTransferRelated = await Transfers.remove({ type_budgetline: idRelated });
+        }
         const transfers = await Transfers.remove({ type_budgetline: req.params.id });
         const lines = await BudgetLine.remove({ _id: req.params.id });
 
         console.log(movement, transfers, lines);
     } catch (err) {
         console.log(err);
-        res.status(500).send({ errors: ["Server Error", err] });
+        res.status(500).send({ errors: [{ msg: "Server Error" }] });
 
     }
 
