@@ -108,7 +108,7 @@ class Transfers extends Component {
                     <form className="ui form">
                         <div className="inline fields">
                             <div className="five wide field"><label htmlFor="description">description</label></div>
-                            <div className="three wide field"><label htmlFor="transfer_type">transfer type</label></div>
+                            <div className="two wide field"><label htmlFor="transfer_type">transfer type</label></div>
                             <div className="four wide field"><label htmlFor="type_budgetline_related">releted item</label></div>
                             <div className="three wide field"><label htmlFor="date_transfer">transfer date</label></div>
                             <div className="three wide field"><label htmlFor="amount">amount transfer</label></div>
