@@ -85,31 +85,32 @@ router.delete("/:id", auth, async (req, res) => {
     try {
         const movement = await Movement.find({ _id: req.params.id }).populate("type_budgetline");
         if (movement) {
-            //console.log(movement);
-            //console.log(movement[0].type_budgetline);
+            console.log(movement);
+            console.log(movement[0].type_budgetline);
             const budgetLine = await BudgetLine.find({ _id: movement[0].type_budgetline._id });
-            //console.log(budgetLine);
+            console.log(budgetLine);
             let amountSpent = 0;
             const _amountSpent = +budgetLine[0].amount_spent;
             const amount = +movement[0].amount;
-            //console.log(amount_spent, amount);
+            console.log(_amountSpent, amount, amountSpent);
             if (budgetLine[0].type_item === "spence") {
+                //if type_item is spence and movement type is in the amount is a return amount spent - amount in movement
                 amountSpent = movement[0].movement_type === "in" ? (amount + _amountSpent) : (_amountSpent - amount);
             } else {
-                amountSpent = movement[0].movement_type === "out" ? (amount + _amountSpent) : (_amountSpent - amount);
+                //if type_item is income and movement type is 
+                amountSpent = movement[0].movement_type === "in" ? (_amountSpent - amount) : (_amountSpent + amount);
             }
             console.log("amount", amountSpent);
             const updateBudget = await BudgetLine.updateOne({ _id: movement[0].type_budgetline }, { amount_spent: _amountSpent })
-            const deleteMovement = await Movement.remove({ _id: req.params.id });
-            res.send(deleteMovement);
+            console.log(updateBudget);
+            const deleteMovement = await Movement.deleteOne({ _id: req.params.id });
+            const newMovements = await Movement.find({ type_budgetline: movement[0].type_budgetline });
+            console.log(deleteMovement);
+            res.send([budgetLine, newMovements]);
         }
-
-
     } catch (err) {
         console.log(err);
         res.status(500).send({ errors: [{ msg: "Server Error" }] });
-
     };
-
 });
 module.exports = router;

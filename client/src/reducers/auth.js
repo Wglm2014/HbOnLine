@@ -25,6 +25,7 @@ export default function (state = initialState, action) {
         case LOGIN_FAIL:
         case AUTH_ERROR:
         case LOGOUT:
+            console.log("browser refresh");
             localStorage.removeItem("token");
             return {
                 ...state,

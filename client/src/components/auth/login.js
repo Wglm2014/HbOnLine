@@ -24,47 +24,15 @@ const Login = ({ auth, login }) => {
         return <Redirect to="/dashboard" />;
     }
 
-
     return (
-        <div>
-            <div className="ui sizer vertical segment">
 
-                <h1 className="large text-primary">Login</h1>
-                <p className="lead"><i className="user icon"></i> To Your Account</p>
-            </div>
-            <div id="Register" className="ui placeholder segment">
-                <div className="ui two column very relaxed stackable grid">
-                    <div className="column">
-                        <form className="ui form" onSubmit={e => { onSubmit(e) }}>
-                            <div className="field">
-                                <label htmlFor="email">Please enter your email</label>
-                                <div className="ui left icon input">
-                                    <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
-                                    <i className="envelope icon"></i>
-                                </div>
+        <form className="form-inline my-2 my-lg-0" onSubmit={e => { onSubmit(e) }}>
+            <input className="form-control" type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+            <input className="form-control" type="password" placeholder="Password" name="password" value={password} onChange={e => onChange(e)} minLength="6" />
+            <button type="submit" className="btn bg-color-secondary text-light border">Login</button>
+        </form>
 
-                            </div>
-                            <div className="field">
-                                <label htmlFor="password">Please enter your password</label>
-                                <div className="ui left icon input">
-                                    <input type="password" placeholder="Password" name="password" value={password} onChange={e => onChange(e)} minLength="6" />
-                                    <i className="lock icon"></i>
-                                </div>
 
-                            </div>
-                            <button type="submit" className="ui blue submit button">Login</button>
-
-                        </form>
-                    </div>
-                    <div className="middle aligned column">
-                        <button className="ui big button">
-                            <i className="signup icon"> </i><a href="/register">Sign Up</a>
-                        </button>
-                    </div>
-                </div>
-                <idv className="ui vertical divider">Or</idv>
-            </div>
-        </div>
     )
 }
 

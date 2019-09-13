@@ -2,17 +2,12 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const BudgetLine = require("../../models/budgetline");
-const Movements = require("../../models/movement");
-const Transfers = require("../../models/transfer");
-
-const User = require("../../models/user");
 const { check, validationResult } = require("express-validator");
 
 
 router.get("/", auth, async (req, res) => {
 
 
-    let id = req.user.id;
     try {
         const budgetLine = await BudgetLine.find({ user: req.user.id });
         if (!budgetLine) {
@@ -73,35 +68,4 @@ router.post("/", [auth,
 
     });
 
-router.put("/:id", auth, async (req, res) => {
-
-    try {
-        const budgetLine = await BudgetLine.updateOne({ _id: req.body.id }, { name: req.body.name, payment_date: req.body.payment_date });
-        if (!budgetLine) {
-            return res.status(400).json({ msg: "Item not found" })
-        }
-        res.json(budgetLine);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send({ errors: [{ msg: "Server Error" }] });
-    }
-});
-
-router.delete("/:id", auth, async (req, res) => {
-    console.log("did not make it");
-    try {
-        //const movement = await Movements.remove({ type_budgetline: req.params.id });
-        //const transfers = await Transfers.remove({ type_budgetline: req.params.id });
-        const lines = await BudgetLine.remove({ _id: req.params.id });
-        if (!lines) {
-            return res.status(400).json({ msg: "Item not found" })
-        }
-        console.log(movement, transfers, lines);
-    } catch (err) {
-        console.log(err);
-        res.status(500).send({ errors: [{ msg: "Server Error" }] });
-
-    }
-
-});
 module.exports = router;

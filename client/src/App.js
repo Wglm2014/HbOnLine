@@ -3,52 +3,46 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import NavBar from "./components/Nav";
 import Landing from "./components/Landing";
-import Login from "./components/auth/login";
-import Register from "./components/auth/register";
-import Dashboard from "./components/dashboard";
-import PostBudgetLine from "./components/budgetForm";
-import PostMovements from "./components/movementForm";
-import PostTransfers from "./components/transferForm";
-
-import PrivateRoute from "./components/routing/privateroute"
+//import PostBudgetLine from "./components/budgetForm";
+//import PostMovements from "./components/movementForm";
+//import PostTransfers from "./components/transferForm";
+import "./css/App.css"
 //Redux
 import store from "./store";
-import Alert from "./components/alert"
 import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setauthtoken"
-import "./App.css";
+import Routes from "./components/routing/Routes";
 
+/*<PrivateRoute exact path="/postbudgetline" component={PostBudgetLine} />
+              <PrivateRoute exact path="/postmovements/:id" component={PostMovements} />
+              <PrivateRoute exact path="/posttransfers/:id" component={PostTransfers} />*/
 
+console.log(localStorage.token);
 if (localStorage.token) {
+  console.log("here");
   setAuthToken(localStorage.token);
 }
 
 const App = () => {
   useEffect(() => {
+    console.log("before load user");
     store.dispatch(loadUser)
+    console.log("after load user");
   }, []); //empty bracket will make it only run once
+
   return (
     <Provider store={store}>
       <Router>
         <div className="App">
           <NavBar />
-          <Route exact path="/" component={Landing} />
-          <section className="container">
-            <Alert />
-            <Switch>
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/postbudgetline" component={PostBudgetLine} />
-              <PrivateRoute exact path="/postmovements/:id" component={PostMovements} />
-              <PrivateRoute exact path="/posttransfers/:id" component={PostTransfers} />
-
-            </Switch>
-          </section>
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <Route component={Routes} />
+          </Switch>
         </div>
       </Router>
     </Provider>
-  )
+  );
 }
 
 export default App;

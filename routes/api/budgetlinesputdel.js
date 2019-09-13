@@ -17,7 +17,7 @@ router.put("/:id", auth, async (req, res) => {
         }
         res.json(budgetLine);
     } catch (err) {
-        console.error(err.message);
+        //console.error(err.message);
         res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
 });
@@ -25,11 +25,20 @@ router.put("/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
     console.log("did not make it");
     try {
+        //console.log("try1");
         const movement = await Movements.remove({ type_budgetline: req.params.id });
         //find transfer of related account and revert
+    } catch (err) {
+        //console.log("err1");
+        //console.log(err);
+        //res.status(500).send({ errors: [{ msg: "Server Error when trying to delete movement" }] });
+
+        // there is not movements for this line
+    }
+    try {
+        console.log("try2");
         const findTransfer = await Transfers.find({ type_budgetline: req.params.id }).populate("type_budgetline_related");
         // get data from related transfer to update 
-        console.log(findTransfer.length);
         if (findTransfer.join("") !== "") {
             console.log("still here");
             const transferType = findTransfer[0].transfer_type;
@@ -43,14 +52,22 @@ router.delete("/:id", auth, async (req, res) => {
             const deleteTransferRelated = await Transfers.remove({ type_budgetline: idRelated });
         }
         const transfers = await Transfers.remove({ type_budgetline: req.params.id });
-        const lines = await BudgetLine.remove({ _id: req.params.id });
-
-        console.log(movement, transfers, lines);
     } catch (err) {
-        console.log(err);
-        res.status(500).send({ errors: [{ msg: "Server Error" }] });
+        //console.log("err1");
+        //console.log(err);
+        //res.status(500).send({ errors: [{ msg: "Server Error when trying to delete transfer" }] });
+
+        // there is no transfers for this line
+    }
+    try {
+        //console.log("try3");
+        const lines = await BudgetLine.remove({ _id: req.params.id });
+        res.json(lines);
+    } catch (err) {
+        //console.log("err3");
+        //console.log(err);
+        res.status(500).send({ errors: [{ msg: "Server Error when trying to delete line" }] });
 
     }
-
 });
 module.exports = router;

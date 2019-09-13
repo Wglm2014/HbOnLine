@@ -61,7 +61,7 @@ check("password", "Please enter a password with 6 or more characters").isLength(
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).send({ errors: [{ msg: "Server Error" }] });
+            res.status(500).send({ errors: [{ msg: "Server Error when creating account" }] });
         }
     });
 
