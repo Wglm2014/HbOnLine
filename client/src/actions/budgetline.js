@@ -1,7 +1,7 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 
-import { GET_BUDGET_LINE, GET_BUDGET_LINES, BUDGET_LINE_ERROR, POST_BUDGET_LINE, DELETE_BUDGET_LINE, SET_ID_BUDGET } from "./types";
+import { GET_BUDGET_LINE, GET_BUDGET_LINES, BUDGET_LINE_ERROR, POST_BUDGET_LINE, DELETE_BUDGET_LINE, SET_ID_BUDGET, PUT_BUDGET_LINE } from "./types";
 
 
 
@@ -84,6 +84,22 @@ export const deleteBudgetLine = (id) => async dispatch => {
             type: DELETE_BUDGET_LINE,
             payload: res.data
         });
+    } catch (err) {
+        const errors = err.response.data.errors;
+        if (errors) {
+            errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+        }
+    }
+}
+
+export const updateBudgetLine = (data) => async dispatch => {
+    try {
+        const res = await axios.put("/api/budgetlineputdel/", data);
+        dispatch({
+            type: PUT_BUDGET_LINE,
+            payload: res.data
+        });
+
     } catch (err) {
         const errors = err.response.data.errors;
         if (errors) {

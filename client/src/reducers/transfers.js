@@ -1,8 +1,8 @@
 import { POST_TRANSFERS, GET_TRANSFER, GET_TRANSFERS, TRANSFERS_ERROR, CLEAR_TRANSFERS, DELETE_TRANSFERS } from "../actions/types";
 
 const initialState = {
-    transfer: null,
-    transfers: [],
+    Transfer: null,
+    Transfers: [],
     loading: true,
     error: {}
 }
@@ -14,7 +14,7 @@ export default function (state = initialState, action) {
         case GET_TRANSFER:
             return {
                 ...state,
-                transfer: payload,
+                Transfer: payload,
                 loading: false
             }
         case GET_TRANSFERS:
@@ -22,7 +22,7 @@ export default function (state = initialState, action) {
             //console.log(state.movements);
             return {
                 ...state,
-                transfers: payload,
+                Transfers: payload,
                 loading: false
             }
         case TRANSFERS_ERROR:
@@ -34,15 +34,15 @@ export default function (state = initialState, action) {
         case CLEAR_TRANSFERS:
             return {
                 ...state,
-                transfer: null,
-                transfers: [],
+                Transfer: null,
+                Transfers: [],
                 loading: true,
                 error: {}
             }
         case DELETE_TRANSFERS:
             return {
                 ...state,
-                transfers: payload,
+                Transfers: payload,
                 loading: false
             }
         default:

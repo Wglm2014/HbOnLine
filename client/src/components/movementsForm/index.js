@@ -8,10 +8,10 @@ import { getBudgetLine } from "../../actions/budgetline";
 import { postMovements, getMovements, deleteMovements } from "../../actions/movements";
 import spinner from "../spinner";
 
-const Movements = ({ getBudgetLine, postMovements, getMovements, deleteMovements, budgetline: { idBudgetLine, budgetLine, loading }, movements: { Movements } }) => {
+const Movements = ({ getBudgetLine, postMovements, getMovements, deleteMovements, budgetline: { idBudgetLine, budgetLine }, movements: { Movements } }) => {
 
     useEffect(() => {
-        alert(idBudgetLine);
+        // alert(idBudgetLine);
         if (idBudgetLine) {
             //alert(idBudgetLine);
             getBudgetLine(idBudgetLine);
@@ -51,7 +51,9 @@ const Movements = ({ getBudgetLine, postMovements, getMovements, deleteMovements
             type_item: budgetLine.type_item,
             amount_spent: budgetLine.amount_spent.$numberDecimal
         }).then(() => {
-            getBudgetLine(idBudgetLine).then(() => getMovements(idBudgetLine)).catch(err => console.log(err));
+            setFormData({ ...formData, description: "", movement_type: "", amount: "", date_movement: "" });
+            getBudgetLine(idBudgetLine).then(() =>
+                getMovements(idBudgetLine)).catch(err => console.log(err));
         }).catch((err) => console.log(err));
     }
 
@@ -146,7 +148,6 @@ Movements.propTypes = {
     postMovements: PropTypes.func.isRequired,
     getMovements: PropTypes.func.isRequired,
     deleteMovements: PropTypes.func.isRequired,
-    idbudgetline: PropTypes.object.isRequired,
     movements: PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({

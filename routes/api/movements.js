@@ -101,7 +101,7 @@ router.delete("/:id", auth, async (req, res) => {
                 amountSpent = movement[0].movement_type === "in" ? (_amountSpent - amount) : (_amountSpent + amount);
             }
             console.log("amount", amountSpent);
-            const updateBudget = await BudgetLine.updateOne({ _id: movement[0].type_budgetline }, { amount_spent: _amountSpent })
+            const updateBudget = await BudgetLine.updateOne({ _id: movement[0].type_budgetline }, { amount_spent: amountSpent })
             console.log(updateBudget);
             const deleteMovement = await Movement.deleteOne({ _id: req.params.id });
             const newMovements = await Movement.find({ type_budgetline: movement[0].type_budgetline });

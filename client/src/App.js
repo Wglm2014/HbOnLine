@@ -13,10 +13,6 @@ import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setauthtoken"
 import Routes from "./components/routing/Routes";
 
-/*<PrivateRoute exact path="/postbudgetline" component={PostBudgetLine} />
-              <PrivateRoute exact path="/postmovements/:id" component={PostMovements} />
-              <PrivateRoute exact path="/posttransfers/:id" component={PostTransfers} />*/
-
 console.log(localStorage.token);
 if (localStorage.token) {
   console.log("here");

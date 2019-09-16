@@ -16,8 +16,8 @@ const budgetLineSchema = new Schema({
         default: "month"
     },
     payment_date: {
-        type: Date,
-        required: true
+        type: Array,
+        required: false
     },
     amount_budgeted: {
         type: Schema.Types.Decimal128,

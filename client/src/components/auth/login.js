@@ -27,9 +27,12 @@ const Login = ({ auth, login }) => {
     return (
 
         <form className="form-inline my-2 my-lg-0" onSubmit={e => { onSubmit(e) }}>
-            <input className="form-control" type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
-            <input className="form-control" type="password" placeholder="Password" name="password" value={password} onChange={e => onChange(e)} minLength="6" />
-            <button type="submit" className="btn bg-color-secondary text-light border">Login</button>
+            <div class="input-group flex-nowrap">
+                <input className="form-control" type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
+                <input className="form-control" type="password" placeholder="Password" name="password" value={password} onChange={e => onChange(e)} minLength="6" />
+                <div class="input-group-append">
+                    <button type="submit" className="btn bg-color-secondary text-light border">Login</button></div>
+            </div>
         </form>
 
 

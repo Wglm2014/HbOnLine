@@ -1,4 +1,4 @@
-import { POST_BUDGET_LINE, GET_BUDGET_LINE, GET_BUDGET_LINES, BUDGET_LINE_ERROR, CLEAR_BUDGET_LINE, DELETE_BUDGET_LINE, SET_ID_BUDGET } from "../actions/types";
+import { POST_BUDGET_LINE, GET_BUDGET_LINE, GET_BUDGET_LINES, BUDGET_LINE_ERROR, CLEAR_BUDGET_LINE, DELETE_BUDGET_LINE, SET_ID_BUDGET, PUT_BUDGET_LINE } from "../actions/types";
 
 const initialState = {
     idBudgetLine: null,
@@ -17,16 +17,16 @@ export default function (state = initialState, action) {
                 idBudgetLine: payload,
                 loading: false
             }
-        case POST_BUDGET_LINE:
         case GET_BUDGET_LINE:
             return {
                 ...state,
                 budgetLine: payload,
                 loading: false
             }
+        case POST_BUDGET_LINE:
         case GET_BUDGET_LINES:
-            console.log(state);
-            console.log(state.budgetLines);
+        case DELETE_BUDGET_LINE:
+        case PUT_BUDGET_LINE:
             return {
                 ...state,
                 budgetLines: payload,
@@ -45,12 +45,6 @@ export default function (state = initialState, action) {
                 budgetLines: [],
                 loading: true,
                 error: {}
-            }
-        case DELETE_BUDGET_LINE:
-            return {
-                ...state,
-                budgetLine: payload,
-                loading: false
             }
         default:
             return state;

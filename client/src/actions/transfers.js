@@ -1,11 +1,12 @@
 import axios from "axios";
 import { setAlert } from "./alert";
 
-import { GET_TRANSFER, GET_TRANSFERS, TRANSFERS_ERROR, POST_TRANSFERS, DELETE_TRANSFERS } from "./types";
+import { GET_TRANSFERS, TRANSFERS_ERROR, POST_TRANSFERS, DELETE_TRANSFERS } from "./types";
 
 export const getTransfers = (id) => async dispatch => {
     if (id) {
         try {
+
             const res = await axios.get("/api/transfers/" + id);
             dispatch(
                 {
@@ -26,7 +27,7 @@ export const getTransfers = (id) => async dispatch => {
             // console.log(res.data);
             dispatch(
                 {
-                    type: GET_TRANSFERSS,
+                    type: GET_TRANSFERS,
                     payload: res.data
                 });
         } catch (err) {

@@ -13,7 +13,7 @@ router.get("/:id", auth, async (req, res) => {
     console.log("here param", req.params.id);
     try {
         transfer = await Transfer.find({ type_budgetline: req.params.id }).populate("type_budgetline_related");
-
+        console.log(transfer);
         if (!transfer) {
             return res.status(400).json({ msg: "No movements for this budget line" });
         }

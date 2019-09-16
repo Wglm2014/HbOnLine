@@ -6,6 +6,7 @@ import Alert from '../alert';
 import Dashboard from "../dashboard";
 import BudgetForm from '../budgetForm';
 import MovementsForm from '../movementsForm';
+import TransfersForm from '../transfersForm';
 //import NotFound from '../NotFound';
 import PrivateRoute from '../routing/privateroute';
 
@@ -19,6 +20,8 @@ const Routes = () => {
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
         <PrivateRoute exact path='/budgetform' component={BudgetForm} />
         <PrivateRoute exact path='/movementsform' component={MovementsForm} />
+        <PrivateRoute exact path='/transfersform' component={TransfersForm} />
+
       </Switch>
     </section>
   );

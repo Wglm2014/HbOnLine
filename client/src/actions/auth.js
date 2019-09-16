@@ -60,7 +60,7 @@ export const login = ({ email, password }) => async dispatch => {
     try {
         //checl for await for dispatch solve here the error
         const res = await axios.post("/api/auth", body);
-        //console.log(res.data, " 1");
+        console.log(res.data, " 1");
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
