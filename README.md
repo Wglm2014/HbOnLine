@@ -1,15 +1,12 @@
-# Create React Express App
+# Home Budget On Line 
+Is the first version of a web app, to settup the line items amounts for a year home budget, it is just to control the limit of espences and the projected income for the year, the movements can be entered manually as they happen or when having time. The amount settup for the line item can be pass by the real total of the details movements, as the budget is just informational. As the project progresses more features will be added to make it more usefull to the users.
 
-## About This Boilerplate
-
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
-
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## Technology Used
+Nodejs, Express, MongoDb and Mongoose, for the back end server and data persistance. the packages Passport and passport-local are use for validation as well as JWT to generate a token that allowes to know if a user has login and can have access to use the features of the app. React and React-redux is use on the client side for the user interface.
 
 ## Starting the app locally
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
-
+Clone the app from this repository and then run the command
 ```
 npm install
 ```
